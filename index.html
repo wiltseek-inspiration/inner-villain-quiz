@@ -1172,10 +1172,30 @@ async function submitEmail() {
     });
     const data = await response.json();
     console.log('Kit response:', JSON.stringify(data));
-    if (data.subscription) {
-      kitBox.style.display = 'block';
-      kitBox.innerHTML = '<strong>You\'re in.</strong> Your Inner Villain profile is on its way to ' + email + '.';
-      submitBtn.textContent = 'Sent';
+ if (data.subscription) {
+  const subscriberId = data.subscription.subscriber.id;
+  const tagNames = ['Quiz - Completed', 'Quiz - Result - ' + arch.name];
+  await Promise.all(tagNames.map(tagName =>
+    fetch('https://api.convertkit.com/v3/tags', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ api_secret: '1u8mzG7FCdtT0GlFEvepW5yzUrrBTDHGrS4SM0rw55A', name: tagName })
+    })
+    .then(r => r.json())
+    .then(tagData => {
+      if (tagData.tag) {
+        return fetch(`https://api.convertkit.com/v3/tags/${tagData.tag.id}/subscribe`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ api_secret: '1u8mzG7FCdtT0GlFEvepW5yzUrrBTDHGrS4SM0rw55A', email: email })
+        });
+      }
+    })
+  ));
+  kitBox.style.display = 'block';
+  kitBox.innerHTML = '<strong>You\'re in.</strong> Your Inner Villain profile is on its way to ' + email + '.';
+  submitBtn.textContent = 'Sent';
+}
     } else {
       throw new Error(JSON.stringify(data));
     }
