@@ -109,6 +109,35 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system,'Se
 .subtype-name { font-size:13px; font-weight:600; color:var(--text); margin-bottom:4px; }
 .subtype-desc { font-size:11px; color:var(--text2); line-height:1.4; }
 
+/* Awareness badge */
+.awareness-badge { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:5px 12px; border-radius:20px; margin-bottom:1.5rem; }
+.awareness-unaware { background:var(--bg2); color:var(--text2); border:0.5px solid var(--border2); }
+.awareness-recognizing { background:var(--drift-bg); color:var(--drift); border:0.5px solid var(--drift-border); }
+.awareness-working { background:var(--anchor-bg); color:var(--anchor); border:0.5px solid var(--anchor-border); }
+
+/* Pattern map */
+.pattern-map { margin-bottom:1.5rem; }
+.pattern-item { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:0.5px solid var(--border); }
+.pattern-item:last-child { border-bottom:none; }
+.pattern-dot { width:8px; height:8px; min-width:8px; border-radius:50%; margin-top:5px; flex-shrink:0; }
+.pattern-dot.running { background:var(--drift); }
+.pattern-dot.visible { background:#c8960a; }
+.pattern-dot.integrating { background:var(--ctx); }
+.pattern-text { font-size:13px; color:var(--text); line-height:1.5; }
+.pattern-status { font-size:11px; margin-top:2px; }
+.pattern-status.running { color:var(--drift); }
+.pattern-status.visible { color:#9a720a; }
+.pattern-status.integrating { color:var(--ctx); }
+
+/* Truth banner */
+.truth-banner { background:var(--bg2); border-left:2px solid var(--accent); padding:12px 16px; border-radius:0 var(--radius-sm) var(--radius-sm) 0; margin-bottom:1.25rem; font-size:14px; line-height:1.7; color:var(--text); font-style:italic; }
+
+/* Legend cross-link */
+.legend-link { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 16px; background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius-sm); margin-top:1rem; cursor:pointer; text-decoration:none; }
+.legend-link-text { font-size:13px; color:var(--text2); line-height:1.5; }
+.legend-link-text strong { display:block; font-size:14px; font-weight:500; color:var(--text); margin-bottom:2px; }
+.legend-link-arrow { font-size:18px; color:var(--text3); flex-shrink:0; }
+
 /* Retake section */
 .retake-section { margin-top:1.5rem; padding-top:1.25rem; border-top:0.5px solid var(--border); }
 .retake-title { font-size:14px; font-weight:500; color:var(--text); margin-bottom:0.75rem; }
@@ -212,25 +241,38 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system,'Se
   <div class="result-eyebrow" id="r-eyebrow"></div>
   <div class="result-name" id="r-name"></div>
   <div class="result-arc" id="r-arc"></div>
-  <div id="r-type-badge" class="result-type-badge"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem">
+    <div id="r-type-badge" class="result-type-badge" style="margin-bottom:0"></div>
+    <div id="r-awareness-badge" class="awareness-badge"></div>
+  </div>
+
   <div class="result-label">Your pattern</div>
   <div class="result-body" id="r-strategy"></div>
+
   <div class="result-label">The core belief driving it</div>
   <div class="result-body" id="r-belief"></div>
+
   <div class="result-label">What you tell yourself</div>
   <div class="result-body" id="r-dialogue"></div>
+
   <div class="result-label">The great truth</div>
-  <div class="result-body" id="r-truth"></div>
+  <div class="truth-banner" id="r-truth"></div>
+
   <div class="divider"></div>
-  <div class="result-label">Your archetype breakdown</div>
-  <div class="arc-breakdown" id="r-breakdown"></div>
+  <div class="result-label">Your pattern map</div>
+  <div class="pattern-map" id="r-pattern-map"></div>
+
   <div class="divider"></div>
-  <div class="result-label">Your three expressions</div>
+  <div class="result-label">Your expression</div>
   <div class="subtype-grid" id="r-subtypes"></div>
+
+  <div class="divider"></div>
+  <div class="result-label">Archetype breakdown</div>
+  <div class="arc-breakdown" id="r-breakdown"></div>
 
   <div class="email-gate">
     <div class="email-gate-title">Get your full Inner Villain profile</div>
-    <div class="email-gate-body">Your archetype breakdown, subtype deep-dive, and the perspective shifts that move your specific pattern — delivered to your inbox.</div>
+    <div class="email-gate-body">Your pattern deep-dive, the perspective shifts specific to your archetype, and what the other side of this pattern looks like — delivered to your inbox.</div>
     <input class="name-input" id="gate-name" type="text" placeholder="First name">
     <div class="email-row">
       <input class="email-input" id="gate-email" type="email" placeholder="Your email address">
@@ -242,6 +284,10 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system,'Se
   <div class="retake-section">
     <div class="retake-title">Discover your villain in a different context</div>
     <div class="retake-pills" id="retake-pills"></div>
+    <a class="legend-link" href="https://wiltseek-inspiration.github.io/inner-villain-quiz/legend" target="_blank">
+      <div class="legend-link-text"><strong>Explore the other side</strong>Every villain has a Legend on the other side. Take the Legend Universe quiz to see what you're capable of when the pattern is integrated.</div>
+      <div class="legend-link-arrow">→</div>
+    </a>
   </div>
 </div>
 
@@ -278,6 +324,14 @@ const archetypes = [
     belief:'Order controls chaos and pain.',
     dialogue:'"You should be ashamed and humiliated that you didn\'t do this right."',
     truth:'No rule holds absolute power where kindness is present.',
+    patterns:[
+      'Enforcing impossible standards on yourself and others',
+      'Using shame as a motivational tool',
+      'Making belonging conditional on performance',
+      'Collapsing when the rules stop making sense',
+      'Confusing order with safety',
+      'Critiquing as a way of staying in control'
+    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Perfectionist',desc:'Nothing is worth doing unless it\'s done right. Holds others and self to an impossible standard.'},
       {label:'Wounded Child',name:'The Imposter',desc:'Humbles itself before it can be humbled. Earns its seat over and over.'},
@@ -288,6 +342,14 @@ const archetypes = [
     belief:'Martyrdom is the key to passive control.',
     dialogue:'"I deserve my happy ending. If I\'m not given it, I will take my sacrifice back."',
     truth:'Scarcity with wisdom becomes boundaries.',
+    patterns:[
+      'Giving beyond your capacity and tracking the debt',
+      'Withdrawing love or effort when the ledger feels unbalanced',
+      'Measuring your worth through sacrifice',
+      'Exhaustion as identity',
+      'Passive control through visible suffering',
+      'Rest feeling like failure or selfishness'
+    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Banker',desc:'Creates tasks to accumulate relational debt. Gives to collect.'},
       {label:'Wounded Child',name:'The Abandoned',desc:'Leaves itself first so it cannot be left.'},
@@ -298,6 +360,14 @@ const archetypes = [
     belief:'There aren\'t enough resources to go around. I must fight for mine.',
     dialogue:'"If I lose control, everything falls apart."',
     truth:'What\'s truly for you doesn\'t require control.',
+    patterns:[
+      'Hoarding information, access, or opportunity',
+      'Managing the narrative obsessively',
+      'Scarcity thinking even in abundance',
+      'Control as a substitute for trust',
+      'Envy disguised as ambition',
+      'Appearance management before authenticity'
+    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Influencer',desc:'Maintains control through managing the narrative and appearances.'},
       {label:'Wounded Child',name:'The Envious',desc:'Acquires ambition to manipulate access to what others have.'},
@@ -308,6 +378,14 @@ const archetypes = [
     belief:'I will live in my fantasy rather than face what growing up requires.',
     dialogue:'"Don\'t tell me what to do. I\'ll live in my fantasy forever."',
     truth:'Youth holds freedom that corrupts when it does not mature.',
+    patterns:[
+      'Refusing responsibility while expecting its rewards',
+      'Fantasy as a replacement for action',
+      'Emotional dependence dressed as connection',
+      'Resenting those who grow while staying stuck',
+      'Resisting structure as a form of freedom',
+      'Avoidance of maturity through perpetual becoming'
+    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Entitled',desc:'Blind to the sacrifice of others maintaining their comfort.'},
       {label:'Wounded Child',name:'The Liar',desc:'Disappears into oneself when emotionally adrift and forgotten.'},
@@ -318,6 +396,14 @@ const archetypes = [
     belief:'My darkness is dangerous and must be kept entirely separate.',
     dialogue:'"If I stay in my head, no one can hurt me."',
     truth:'There is no hiding feelings. Your shadow will be expressed whether you choose it or not.',
+    patterns:[
+      'Intellectualizing emotion until it disappears',
+      'A hidden outlet for everything kept composed on the surface',
+      'Retreating into expertise when intimacy arrives',
+      'Hyper-competence as emotional armor',
+      'Feeling everything or feeling nothing — rarely in between',
+      'Analysis as a way of avoiding the body'
+    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Overthinker',desc:'Deep research and thinking deployed as armor against feeling.'},
       {label:'Wounded Child',name:'The Sensitive',desc:'Perceives everything as self-originating. Feels everything too much.'},
@@ -328,6 +414,14 @@ const archetypes = [
     belief:'Anything is worth sacrificing for safety.',
     dialogue:'"If I control everything, I\'ll never get hurt again."',
     truth:'Living fully is worth the risk of pain.',
+    patterns:[
+      'Catastrophizing as a way to justify avoidance',
+      'Isolating others to keep them close',
+      'Safety-seeking at the cost of aliveness',
+      'Loyalty to the familiar even when it harms',
+      'Bracing for the next disaster before the current one ends',
+      'Confusing predictability with love'
+    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Catastrophist',desc:'Avoidance of risk that ends up attracting the very risks avoided.'},
       {label:'Wounded Child',name:'The Outcast',desc:'The world is out to get me, so there\'s no point trying.'},
@@ -338,6 +432,14 @@ const archetypes = [
     belief:'If I have people\'s attention, I am loved.',
     dialogue:'"I\'ll become whatever you want — just don\'t ignore me."',
     truth:'Satiation exists only in the present moment.',
+    patterns:[
+      'Shapeshifting to match what the room seems to want',
+      'Attention as a substitute for love',
+      'Performing presence instead of inhabiting it',
+      'Collecting identities without settling into one',
+      'Deflection through humor when things get real',
+      'Hunger that returns immediately after being fed'
+    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Thief',desc:'Plagiarism as a path to the identity they want but haven\'t built.'},
       {label:'Wounded Child',name:'The Defensive',desc:'Overwhelms others with argument to protect an unguarded self.'},
@@ -348,6 +450,14 @@ const archetypes = [
     belief:'I only protect those who follow my ideology.',
     dialogue:'"If you\'re not on my side, you\'re the enemy."',
     truth:'No justification of righteousness is worth harming another.',
+    patterns:[
+      'Conviction so strong it becomes coercive',
+      'Correcting others as a form of love',
+      'Seeing dissent as betrayal',
+      'Taking the blame for everything as covert control',
+      'Vision that cannot tolerate imperfect execution',
+      'Righteousness as a cover for fear of irrelevance'
+    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Fixer',desc:'Does everyone\'s thinking for them, uninvited and certain of their rightness.'},
       {label:'Wounded Child',name:'The Pathogen',desc:'Takes the blame for everything as a covert form of control.'},
@@ -358,6 +468,14 @@ const archetypes = [
     belief:'Everything I touch turns to dust.',
     dialogue:'"If I can\'t build something perfect, I\'ll destroy everything before anyone else can."',
     truth:'Imagination and inspiration unused is inverted into self-destruction.',
+    patterns:[
+      'Sabotaging completion before anyone else can reject it',
+      'Overwhelm as a reason not to begin',
+      'Floods of ideas with very few arrivals',
+      'Questioning as a permanent delay disguised as discernment',
+      'Relief-seeking that prevents full presence',
+      'Confusing destruction with creative freedom'
+    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Questioner',desc:'Questioning as a permanent delay to action disguised as discernment.'},
       {label:'Wounded Child',name:'The Overwhelmed',desc:'Life is too much — so nothing begins and nothing completes.'},
@@ -1043,6 +1161,20 @@ function stGoBack() {
 }
 
 // ─── RESULT ───────────────────────────────────────────────────────────────────
+function getAwarenessLevel() {
+  // Based on subtype answers — how the pattern was described
+  // 0 = Successful Antagonist (more functional/aware), 1 = Wounded Child (less aware), 2 = Covert (least visible to self)
+  const stVotes = [0, 0, 0];
+  subtypeAnswers.forEach((ans, qi) => {
+    const subtype = subtypeQuestions[qi].opts[ans]?.subtype;
+    if (subtype !== undefined) stVotes[subtype]++;
+  });
+  const dominant = stVotes.indexOf(Math.max(...stVotes));
+  if (dominant === 0) return 'recognizing';
+  if (dominant === 2) return 'unaware';
+  return 'recognizing';
+}
+
 function showResult() {
   completedContexts[ctx.id] = { archetype: winnerArch.name };
   saveCompleted(completedContexts);
@@ -1056,22 +1188,62 @@ function showResult() {
     if (subtype !== undefined) stVotes[subtype]++;
   });
   const resultSubtype = stVotes.indexOf(Math.max(...stVotes));
+  const awareness = getAwarenessLevel();
+  const awarenessLabels = { unaware: 'Pattern running', recognizing: 'Beginning to see it', working: 'Working with it' };
 
+  // Header
   document.getElementById('r-ctx-text').textContent = ctx.badge;
   document.getElementById('r-eyebrow').textContent = arch.arc;
   document.getElementById('r-name').textContent = arch.name;
   document.getElementById('r-arc').textContent = arch.theme;
 
+  // Type badge
   const badge = document.getElementById('r-type-badge');
   badge.style.cssText = arch.type === 'anchor'
-    ? 'background:var(--anchor-bg);color:var(--anchor);border:0.5px solid var(--anchor-border)'
-    : 'background:var(--drift-bg);color:var(--drift);border:0.5px solid var(--drift-border)';
+    ? 'background:var(--anchor-bg);color:var(--anchor);border:0.5px solid var(--anchor-border);margin-bottom:0'
+    : 'background:var(--drift-bg);color:var(--drift);border:0.5px solid var(--drift-border);margin-bottom:0';
   badge.textContent = arch.type === 'anchor' ? 'Anchor pattern' : 'Drift pattern';
 
+  // Awareness badge
+  const awBadge = document.getElementById('r-awareness-badge');
+  awBadge.className = 'awareness-badge awareness-' + awareness;
+  awBadge.textContent = awarenessLabels[awareness];
+
+  // Core content
   document.getElementById('r-strategy').textContent = arch.strategy;
   document.getElementById('r-belief').textContent = arch.belief;
   document.getElementById('r-dialogue').textContent = arch.dialogue;
   document.getElementById('r-truth').textContent = arch.truth;
+
+  // Pattern map — 6 patterns, distributed across awareness levels
+  const patternMap = document.getElementById('r-pattern-map');
+  patternMap.innerHTML = '';
+  const ratio = resultSubtype === 0 ? 0.7 : resultSubtype === 2 ? 0.2 : 0.45;
+  arch.patterns.forEach((pattern, i) => {
+    let state, dotClass, statusText;
+    if (i < 2) {
+      state = ratio >= 0.6 ? 'integrating' : ratio >= 0.35 ? 'visible' : 'running';
+    } else if (i < 4) {
+      state = ratio >= 0.35 ? 'visible' : 'running';
+    } else {
+      state = ratio >= 0.6 ? 'visible' : 'running';
+    }
+    const statusMap = { running: 'Still running', visible: 'Becoming visible', integrating: 'Being integrated' };
+    const item = document.createElement('div');
+    item.className = 'pattern-item';
+    item.innerHTML = `<div class="pattern-dot ${state}"></div><div><div class="pattern-text">${pattern}</div><div class="pattern-status ${state}">${statusMap[state]}</div></div>`;
+    patternMap.appendChild(item);
+  });
+
+  // Subtypes
+  const stDiv = document.getElementById('r-subtypes');
+  stDiv.innerHTML = '';
+  arch.subtypes.forEach((st, i) => {
+    const card = document.createElement('div');
+    card.className = 'subtype-card' + (i === resultSubtype ? ' is-result' : '');
+    card.innerHTML = `<div class="subtype-label">${st.label}${i === resultSubtype ? ' · Your expression' : ''}</div><div class="subtype-name">${st.name}</div><div class="subtype-desc">${st.desc}</div>`;
+    stDiv.appendChild(card);
+  });
 
   // Breakdown bars
   const breakdown = document.getElementById('r-breakdown');
@@ -1087,17 +1259,7 @@ function showResult() {
     breakdown.appendChild(row);
   });
 
-  // Subtypes
-  const stDiv = document.getElementById('r-subtypes');
-  stDiv.innerHTML = '';
-  arch.subtypes.forEach((st, i) => {
-    const card = document.createElement('div');
-    card.className = 'subtype-card' + (i === resultSubtype ? ' is-result' : '');
-    card.innerHTML = `<div class="subtype-label">${st.label}${i === resultSubtype ? ' · Your expression' : ''}</div><div class="subtype-name">${st.name}</div><div class="subtype-desc">${st.desc}</div>`;
-    stDiv.appendChild(card);
-  });
-
-  // Retake pills — show unused contexts
+  // Retake pills
   const pillsDiv = document.getElementById('retake-pills');
   pillsDiv.innerHTML = '';
   CONTEXTS.filter(c => c.id !== ctx.id).forEach(c => {
@@ -1105,9 +1267,7 @@ function showResult() {
     const done = completedContexts[c.id];
     pill.className = 'retake-pill' + (done ? ' done' : '');
     pill.innerHTML = `${c.emoji} ${done ? `${c.label} — ${done.archetype}` : c.label}`;
-    if (!done) {
-      pill.onclick = () => retakeAs(c);
-    }
+    if (!done) pill.onclick = () => retakeAs(c);
     pillsDiv.appendChild(pill);
   });
 
