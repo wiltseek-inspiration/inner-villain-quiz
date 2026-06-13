@@ -1322,10 +1322,12 @@ async function submitEmail() {
         first_name: name || '',
         email: email,
        fields: {
+        quiz_result: arch.name,
         ['quiz_result_' + ctx.id]: arch.name,
-        ['quiz_type_' + ctx.id]: arch.type,
-        quiz_context_latest: ctx.id,
-        quiz_breakdown_latest: breakdown
+        quiz_type: arch.type,
+        quiz_context: ctx.id,
+        quiz_breakdown: breakdown
+      }
       }
       })
     });
