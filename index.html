@@ -3,194 +3,205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inner Villain Quiz — Inner Villain Works</title>
+<title>The Inner Villain Quiz — Legend Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #faf9f7; --bg2: #f2f0eb; --bg3: #e8e5de;
-  --text: #1a1916; --text2: #5a5750; --text3: #9a9690;
-  --border: rgba(26,25,22,0.12); --border2: rgba(26,25,22,0.22);
-  --accent: #2c2a26;
-  --anchor: #8b4513; --anchor-bg: #fdf3ec; --anchor-border: #e8c4a0;
-  --drift: #1a4a6b; --drift-bg: #eef4fb; --drift-border: #a8c8e8;
-  --ctx: #3d5a3e; --ctx-bg: #eef5ee; --ctx-border: #b8d4b8;
-  --radius: 10px; --radius-sm: 6px;
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root{
+  --blanc:#ffffff; --veil:#efefef; --midnight:#213347; --gild:#d69528;
+  --blush:#e3a39c; --mistwing:#7590b2; --physalis:#e15a2a; --kurenai:#cb1b45;
+  --bg:#f4f2ee; --surface:#ffffff;
+  --text:#213347; --text2:#52606f; --text3:#8a98aa;
+  --line:rgba(33,51,71,0.12); --line2:rgba(33,51,71,0.24);
+  --gild-tint:#fbf3e3; --gild-line:#ecd3a4; --gild-ink:#9a6a1c;
+  --mist-tint:#eef2f8; --mist-line:#c8d4e6;
+  --radius:16px; --radius-sm:10px; --pad:28px;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --hero:linear-gradient(180deg,#1c2c3e 0%,#28415a 48%,#6f8aad 100%);
 }
-body { background: var(--bg); color: var(--text); font-family: -apple-system,'Segoe UI',sans-serif; min-height:100vh; display:flex; align-items:flex-start; justify-content:center; padding:2rem 1rem 4rem; }
-.wrap { width:100%; max-width:640px; }
-.screen { display:none; }
-.screen.active { display:block; }
+body{ background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; display:flex; align-items:flex-start; justify-content:center; padding:2.25rem 1rem 4rem; -webkit-font-smoothing:antialiased; }
+.wrap{ width:100%; max-width:640px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:0 1px 2px rgba(33,51,71,.05),0 22px 60px rgba(33,51,71,.12); }
+.screen{ display:none; padding:var(--pad); }
+.screen.active{ display:block; }
+
+/* Brand mark + lockups */
+.mark{ width:46px; height:55px; display:block; margin:0 auto; }
+.mark-sm{ width:34px; height:41px; }
+.mark-xs{ width:22px; height:26px; margin:0; }
+.wordmark{ font-family:var(--serif); font-weight:500; letter-spacing:.22em; font-size:26px; color:var(--gild); margin-top:12px; }
+.wordmark-sm{ font-family:var(--serif); font-weight:500; letter-spacing:.2em; font-size:14px; }
+.tagline{ font-family:var(--serif); font-style:italic; font-size:15px; color:var(--blush); margin-top:4px; }
+.brand-hero{ margin:calc(-1*var(--pad)) calc(-1*var(--pad)) 26px; padding:38px var(--pad) 32px; background:var(--hero); text-align:center; }
+.brand-hero .wordmark{ color:#e9c585; }
+.brand-hero .tagline{ color:#e3a39c; }
+.mini-brand{ margin:calc(-1*var(--pad)) calc(-1*var(--pad)) 22px; padding:13px var(--pad); background:var(--hero); display:flex; align-items:center; justify-content:center; gap:9px; }
+.mini-brand .wordmark-sm{ color:#e9c585; }
 
 /* Intro */
-.intro-eyebrow { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text3); margin-bottom:1rem; }
-.intro-title { font-size:28px; font-weight:600; line-height:1.25; color:var(--text); margin-bottom:1rem; }
-.intro-body { font-size:15px; line-height:1.75; color:var(--text2); margin-bottom:1.75rem; }
-.intro-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:1.75rem; }
-.stat-card { background:var(--bg2); border-radius:var(--radius-sm); padding:14px; text-align:center; }
-.stat-n { font-size:20px; font-weight:600; color:var(--text); }
-.stat-l { font-size:11px; color:var(--text3); margin-top:2px; }
+.intro-eyebrow{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--text3); margin-bottom:.7rem; }
+.intro-title{ font-family:var(--serif); font-size:40px; font-weight:600; line-height:1.08; color:var(--midnight); margin-bottom:1rem; }
+.intro-body{ font-size:15px; line-height:1.75; color:var(--text2); margin-bottom:1.75rem; }
+.intro-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:1.75rem; }
+.stat-card{ background:var(--bg); border:1px solid var(--line); border-radius:var(--radius-sm); padding:16px 10px; text-align:center; }
+.stat-n{ font-family:var(--serif); font-size:26px; font-weight:600; color:var(--midnight); line-height:1; }
+.stat-l{ font-size:11px; color:var(--text3); margin-top:5px; }
 
 /* Context picker */
-.ctx-label { font-size:15px; font-weight:500; color:var(--text); margin-bottom:0.75rem; line-height:1.4; }
-.ctx-hint { font-size:13px; color:var(--text3); margin-bottom:1rem; }
-.ctx-options { display:flex; flex-direction:column; gap:7px; margin-bottom:1.5rem; }
-.ctx-opt { display:flex; align-items:center; gap:12px; padding:12px 16px; border:0.5px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; font-size:14px; color:var(--text2); background:white; text-align:left; width:100%; font-family:inherit; transition:all 0.1s; }
-.ctx-opt:hover { border-color:var(--border2); background:var(--bg); }
-.ctx-opt.selected { border-color:var(--ctx); background:var(--ctx-bg); color:var(--ctx); }
-.ctx-radio { width:16px; height:16px; min-width:16px; border-radius:50%; border:1.5px solid currentColor; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.ctx-radio-dot { width:8px; height:8px; border-radius:50%; background:var(--ctx); display:none; }
-.ctx-opt.selected .ctx-radio-dot { display:block; }
-.ctx-emoji { font-size:16px; }
+.ctx-label{ font-size:15px; font-weight:600; color:var(--midnight); margin-bottom:.5rem; line-height:1.4; }
+.ctx-hint{ font-size:13px; color:var(--text3); line-height:1.6; margin-bottom:1.1rem; }
+.ctx-options{ display:flex; flex-direction:column; gap:8px; margin-bottom:1.5rem; }
+.ctx-opt{ display:flex; align-items:center; gap:12px; padding:14px 16px; border:1px solid var(--line); border-radius:var(--radius-sm); cursor:pointer; font-size:14px; color:var(--text2); background:var(--surface); text-align:left; width:100%; font-family:inherit; transition:all .12s; }
+.ctx-opt:hover{ border-color:var(--gild-line); background:var(--gild-tint); }
+.ctx-opt.selected{ border-color:var(--gild); background:var(--gild-tint); color:var(--gild-ink); }
+.ctx-emoji{ font-size:16px; }
 
-/* Context badge (persistent) */
-.ctx-badge { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; padding:5px 12px; border-radius:20px; background:var(--ctx-bg); color:var(--ctx); border:0.5px solid var(--ctx-border); margin-bottom:1rem; }
-.ctx-badge-dot { width:6px; height:6px; border-radius:50%; background:var(--ctx); flex-shrink:0; }
+/* Context badge */
+.ctx-badge{ display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; padding:5px 13px; border-radius:20px; background:var(--gild-tint); color:var(--gild-ink); border:1px solid var(--gild-line); margin-bottom:1rem; }
+.ctx-badge-dot{ width:6px; height:6px; border-radius:50%; background:var(--gild); flex-shrink:0; }
+.ctx-badge.on-dark{ background:rgba(255,255,255,.14); color:#f3e7cf; border-color:rgba(233,197,133,.4); }
+.ctx-badge.on-dark .ctx-badge-dot{ background:#e9c585; }
 
 /* Progress */
-.progress-wrap { margin-bottom:1.25rem; }
-.progress-meta { display:flex; justify-content:space-between; font-size:12px; color:var(--text3); margin-bottom:6px; }
-.progress-track { height:3px; background:var(--border); border-radius:2px; }
-.progress-fill { height:3px; border-radius:2px; background:var(--accent); transition:width 0.35s ease; }
-.phase-badge { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:500; padding:4px 10px; border-radius:20px; margin-bottom:0.75rem; }
-.phase-badge.anchor { background:var(--anchor-bg); color:var(--anchor); border:0.5px solid var(--anchor-border); }
-.phase-badge.drift  { background:var(--drift-bg);  color:var(--drift);  border:0.5px solid var(--drift-border); }
-.phase-badge.neutral { background:var(--bg2); color:var(--text2); border:0.5px solid var(--border); }
-.phase-dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
+.progress-wrap{ margin-bottom:1.25rem; }
+.progress-meta{ display:flex; justify-content:space-between; font-size:12px; color:var(--text3); margin-bottom:7px; }
+.progress-track{ height:4px; background:var(--veil); border-radius:2px; }
+.progress-fill{ height:4px; border-radius:2px; background:var(--gild); transition:width .35s ease; }
+.phase-badge{ display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:500; padding:5px 11px; border-radius:20px; margin-bottom:.85rem; }
+.phase-badge.neutral{ background:var(--veil); color:var(--text2); border:1px solid var(--line); }
+.phase-badge.anchor{ background:var(--gild-tint); color:var(--gild-ink); border:1px solid var(--gild-line); }
+.phase-badge.drift{ background:var(--mist-tint); color:#3f5a7a; border:1px solid var(--mist-line); }
+.phase-dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
 
 /* Signal */
-.signal-bar { display:flex; gap:6px; margin-bottom:1.25rem; align-items:center; }
-.signal-label { font-size:11px; color:var(--text3); min-width:90px; }
-.signal-track { flex:1; height:4px; background:var(--bg3); border-radius:2px; position:relative; overflow:hidden; }
-.signal-anchor { position:absolute; left:0; top:0; height:100%; background:var(--anchor); border-radius:2px; transition:width 0.4s ease; }
-.signal-drift  { position:absolute; right:0; top:0; height:100%; background:var(--drift);  border-radius:2px; transition:width 0.4s ease; }
+.signal-bar{ display:flex; gap:10px; margin-bottom:1.25rem; align-items:center; }
+.signal-label{ font-size:11px; color:var(--text3); min-width:96px; }
+.signal-track{ flex:1; height:5px; background:var(--veil); border-radius:3px; position:relative; overflow:hidden; }
+.signal-anchor{ position:absolute; left:0; top:0; height:100%; background:var(--gild); border-radius:3px; transition:width .4s ease; }
+.signal-drift{ position:absolute; right:0; top:0; height:100%; background:var(--mistwing); border-radius:3px; transition:width .4s ease; }
 
 /* Question */
-.q-text { font-size:17px; font-weight:500; line-height:1.5; color:var(--text); margin-bottom:0.4rem; }
-.q-hint { font-size:12px; color:var(--text3); margin-bottom:1.1rem; }
-.sel-count { font-size:12px; color:var(--text3); margin-bottom:1.1rem; }
-.options { display:flex; flex-direction:column; gap:7px; margin-bottom:1.5rem; }
-.opt { display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border:0.5px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; font-size:14px; line-height:1.5; color:var(--text2); background:white; text-align:left; width:100%; font-family:inherit; transition:all 0.1s; }
-.opt:hover { border-color:var(--border2); background:var(--bg); }
-.opt.sel-1 { border-color:var(--accent); background:var(--accent); color:white; }
-.opt.sel-2 { border-color:#6b5a3e; background:#6b5a3e; color:white; }
-.opt.sel-3 { border-color:#a08060; background:#a08060; color:white; }
-.sel-badge { width:20px; height:20px; min-width:20px; border-radius:50%; border:1.5px solid currentColor; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; opacity:0.55; flex-shrink:0; margin-top:1px; }
-.opt.sel-1 .sel-badge,.opt.sel-2 .sel-badge,.opt.sel-3 .sel-badge { opacity:1; background:rgba(255,255,255,0.2); border-color:white; color:white; }
+.q-text{ font-family:var(--serif); font-size:24px; font-weight:600; line-height:1.3; color:var(--midnight); margin-bottom:.4rem; }
+.q-hint{ font-size:12px; color:var(--text3); margin-bottom:.4rem; }
+.sel-count{ font-size:12px; color:var(--gild-ink); margin-bottom:1.1rem; font-weight:500; }
+.options{ display:flex; flex-direction:column; gap:8px; margin-bottom:1.5rem; }
+.opt{ display:flex; align-items:flex-start; gap:12px; padding:13px 15px; border:1px solid var(--line); border-radius:var(--radius-sm); cursor:pointer; font-size:14px; line-height:1.5; color:var(--text2); background:var(--surface); text-align:left; width:100%; font-family:inherit; transition:all .12s; }
+.opt:hover{ border-color:var(--line2); background:var(--bg); }
+.opt.sel-1{ border-color:var(--midnight); background:var(--midnight); color:#fff; }
+.opt.sel-2{ border-color:var(--gild); background:var(--gild); color:#3a2a08; }
+.opt.sel-3{ border-color:var(--blush); background:var(--blush); color:#5a2f2a; }
+.sel-badge{ width:21px; height:21px; min-width:21px; border-radius:50%; border:1.5px solid currentColor; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; opacity:.5; flex-shrink:0; margin-top:1px; }
+.opt.sel-1 .sel-badge{ opacity:1; background:rgba(255,255,255,.22); border-color:#fff; color:#fff; }
+.opt.sel-2 .sel-badge,.opt.sel-3 .sel-badge{ opacity:1; background:rgba(33,51,71,.16); border-color:currentColor; color:inherit; }
 
-/* Nav */
-.nav { display:flex; justify-content:space-between; align-items:center; }
-.btn { padding:10px 22px; border-radius:var(--radius-sm); border:0.5px solid var(--border2); background:white; font-size:14px; color:var(--text); cursor:pointer; font-family:inherit; font-weight:500; }
-.btn:hover { background:var(--bg2); }
-.btn.primary { background:var(--accent); color:white; border-color:var(--accent); }
-.btn.primary:hover { opacity:0.88; }
-.btn:disabled { opacity:0.3; cursor:not-allowed; }
-.btn.full { width:100%; text-align:center; padding:13px; margin-top:0.5rem; }
+/* Nav + buttons */
+.nav{ display:flex; justify-content:space-between; align-items:center; }
+.btn{ padding:11px 24px; border-radius:var(--radius-sm); border:1px solid var(--line2); background:var(--surface); font-size:14px; color:var(--midnight); cursor:pointer; font-family:inherit; font-weight:500; transition:all .12s; }
+.btn:hover{ background:var(--bg); }
+.btn.primary{ background:var(--midnight); color:#fff; border-color:var(--midnight); }
+.btn.primary:hover{ background:#2c4358; }
+.btn:disabled{ opacity:.3; cursor:not-allowed; }
+.btn.full{ width:100%; text-align:center; padding:14px; margin-top:.5rem; }
+.text-btn{ background:none; border:none; font-size:12px; color:var(--text3); cursor:pointer; font-family:inherit; text-decoration:underline; }
 
 /* Result */
-.result-eyebrow { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text3); margin-bottom:6px; }
-.result-name { font-size:30px; font-weight:700; color:var(--text); margin-bottom:4px; line-height:1.2; }
-.result-arc { font-size:13px; color:var(--text2); margin-bottom:1rem; }
-.result-type-badge { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:5px 12px; border-radius:20px; margin-bottom:1.5rem; }
-.divider { height:0.5px; background:var(--border); margin:1.25rem 0; }
-.result-label { font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text3); margin-bottom:5px; }
-.result-body { font-size:14px; line-height:1.7; color:var(--text); margin-bottom:1.25rem; }
-.arc-breakdown { margin-bottom:1.5rem; }
-.arc-row { display:flex; align-items:center; gap:10px; margin-bottom:7px; }
-.arc-name { font-size:12px; color:var(--text2); min-width:160px; }
-.arc-track { flex:1; height:6px; background:var(--bg3); border-radius:3px; overflow:hidden; }
-.arc-fill { height:100%; border-radius:3px; background:var(--accent); }
-.arc-fill.is-anchor { background:var(--anchor); }
-.arc-fill.is-drift  { background:var(--drift); }
-.arc-pct { font-size:12px; color:var(--text3); min-width:32px; text-align:right; }
-.subtype-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:1.5rem; }
-.subtype-card { border:0.5px solid var(--border); border-radius:var(--radius-sm); padding:12px; }
-.subtype-card.is-result { border-color:var(--accent); background:var(--bg2); }
-.subtype-label { font-size:10px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--text3); margin-bottom:4px; }
-.subtype-name { font-size:13px; font-weight:600; color:var(--text); margin-bottom:4px; }
-.subtype-desc { font-size:11px; color:var(--text2); line-height:1.4; }
+.result-hero{ margin:calc(-1*var(--pad)) calc(-1*var(--pad)) 24px; padding:30px var(--pad) 30px; background:var(--hero); text-align:center; color:#fff; }
+.result-hero .mark-sm{ margin:0 auto 12px; }
+.result-hero .ctx-badge{ margin-bottom:14px; }
+.result-eyebrow{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#cdb88e; margin-bottom:8px; }
+.result-name{ font-family:var(--serif); font-size:42px; font-weight:600; color:#fff; line-height:1.05; margin-bottom:8px; }
+.result-arc{ font-family:var(--serif); font-style:italic; font-size:17px; color:#e3a39c; }
+.result-label{ font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gild-ink); margin-bottom:6px; }
+.result-body{ font-size:14px; line-height:1.75; color:var(--text); margin-bottom:1.3rem; }
+.truth-banner{ font-family:var(--serif); font-size:19px; font-style:italic; line-height:1.5; color:var(--midnight); padding:4px 0 4px 18px; border-left:3px solid var(--gild); margin-bottom:1.3rem; }
+.divider{ height:1px; background:var(--line); margin:1.4rem 0; }
+.arc-breakdown{ margin-bottom:1.5rem; }
+.arc-row{ display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+.arc-name{ font-size:12px; color:var(--text2); min-width:150px; }
+.arc-track{ flex:1; height:7px; background:var(--veil); border-radius:4px; overflow:hidden; }
+.arc-fill{ height:100%; border-radius:4px; background:var(--mistwing); opacity:.5; }
+.arc-fill.win{ background:var(--gild); opacity:1; }
+.arc-pct{ font-size:12px; color:var(--text3); min-width:34px; text-align:right; }
 
-/* Awareness badge */
-.awareness-badge { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:5px 12px; border-radius:20px; margin-bottom:1.5rem; }
-.awareness-unaware { background:var(--bg2); color:var(--text2); border:0.5px solid var(--border2); }
-.awareness-recognizing { background:var(--drift-bg); color:var(--drift); border:0.5px solid var(--drift-border); }
-.awareness-working { background:var(--anchor-bg); color:var(--anchor); border:0.5px solid var(--anchor-border); }
-
-/* Pattern map */
-.pattern-map { margin-bottom:1.5rem; }
-.pattern-item { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:0.5px solid var(--border); }
-.pattern-item:last-child { border-bottom:none; }
-.pattern-dot { width:8px; height:8px; min-width:8px; border-radius:50%; margin-top:5px; flex-shrink:0; }
-.pattern-dot.running { background:var(--drift); }
-.pattern-dot.visible { background:#c8960a; }
-.pattern-dot.integrating { background:var(--ctx); }
-.pattern-text { font-size:13px; color:var(--text); line-height:1.5; }
-.pattern-status { font-size:11px; margin-top:2px; }
-.pattern-status.running { color:var(--drift); }
-.pattern-status.visible { color:#9a720a; }
-.pattern-status.integrating { color:var(--ctx); }
-
-/* Truth banner */
-.truth-banner { background:var(--bg2); border-left:2px solid var(--accent); padding:12px 16px; border-radius:0 var(--radius-sm) var(--radius-sm) 0; margin-bottom:1.25rem; font-size:14px; line-height:1.7; color:var(--text); font-style:italic; }
+/* Email gate (complimentary guide) */
+.email-gate{ background:var(--gild-tint); border:1px solid var(--gild-line); border-radius:var(--radius); padding:1.6rem; margin-top:1.5rem; }
+.email-gate-title{ font-family:var(--serif); font-size:23px; font-weight:600; color:var(--midnight); margin-bottom:8px; line-height:1.2; }
+.email-gate-body{ font-size:13px; color:var(--text2); line-height:1.7; margin-bottom:1.25rem; }
+.name-input,.email-input{ padding:12px 14px; border:1px solid var(--line2); border-radius:var(--radius-sm); font-size:14px; font-family:inherit; background:var(--surface); color:var(--text); }
+.name-input{ width:100%; margin-bottom:8px; }
+.email-row{ display:flex; gap:8px; }
+.email-input{ flex:1; }
+.name-input:focus,.email-input:focus{ outline:none; border-color:var(--gild); }
+.kit-output{ background:var(--surface); border:1px solid var(--gild-line); border-radius:var(--radius-sm); padding:14px 16px; margin-top:1rem; font-size:13px; color:var(--text2); line-height:1.65; display:none; }
+.kit-output strong{ display:block; margin-bottom:4px; color:var(--midnight); font-family:var(--serif); font-size:17px; font-weight:600; }
 
 /* Legend cross-link */
-.legend-link { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 16px; background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius-sm); margin-top:1rem; cursor:pointer; text-decoration:none; }
-.legend-link-text { font-size:13px; color:var(--text2); line-height:1.5; }
-.legend-link-text strong { display:block; font-size:14px; font-weight:500; color:var(--text); margin-bottom:2px; }
-.legend-link-arrow { font-size:18px; color:var(--text3); flex-shrink:0; }
+.legend-link{ margin-top:1.5rem; padding:1.4rem 1.5rem; border:1px solid var(--mist-line); border-radius:var(--radius); background:var(--mist-tint); }
+.legend-label{ font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#3f5a7a; margin-bottom:7px; }
+.legend-body{ font-size:13px; line-height:1.7; color:var(--text2); margin-bottom:1rem; }
+.legend-cta{ display:inline-block; font-family:var(--serif); font-size:16px; font-weight:600; color:var(--midnight); text-decoration:none; border-bottom:2px solid var(--gild); padding-bottom:2px; }
+.legend-cta:hover{ color:var(--gild-ink); }
 
-/* Retake section */
-.retake-section { margin-top:1.5rem; padding-top:1.25rem; border-top:0.5px solid var(--border); }
-.retake-title { font-size:14px; font-weight:500; color:var(--text); margin-bottom:0.75rem; }
-.retake-pills { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:1rem; }
-.retake-pill { padding:7px 14px; border-radius:20px; border:0.5px solid var(--border2); font-size:13px; color:var(--text2); background:white; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:6px; }
-.retake-pill:hover { border-color:var(--ctx); color:var(--ctx); background:var(--ctx-bg); }
-.retake-pill.done { opacity:0.4; text-decoration:line-through; cursor:default; }
+/* Retake */
+.retake-section{ margin-top:1.5rem; padding-top:1.3rem; border-top:1px solid var(--line); }
+.retake-title{ font-family:var(--serif); font-size:18px; font-weight:600; color:var(--midnight); margin-bottom:.85rem; }
+.retake-pills{ display:flex; flex-wrap:wrap; gap:8px; }
+.retake-pill{ padding:8px 15px; border-radius:20px; border:1px solid var(--line2); font-size:13px; color:var(--text2); background:var(--surface); cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:6px; transition:all .12s; }
+.retake-pill:hover{ border-color:var(--gild); color:var(--gild-ink); background:var(--gild-tint); }
+.retake-pill.done{ opacity:.45; text-decoration:line-through; cursor:default; }
 
-/* Email gate */
-.email-gate { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius); padding:1.5rem; margin-top:1.5rem; }
-.email-gate-title { font-size:16px; font-weight:600; color:var(--text); margin-bottom:6px; }
-.email-gate-body { font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:1.25rem; }
-.email-row { display:flex; gap:8px; }
-.name-input,.email-input { padding:10px 14px; border:0.5px solid var(--border2); border-radius:var(--radius-sm); font-size:14px; font-family:inherit; background:white; color:var(--text); }
-.name-input { width:100%; margin-bottom:8px; }
-.email-input { flex:1; }
-.name-input:focus,.email-input:focus { outline:none; border-color:var(--accent); }
-.kit-output { background:#f0f4f0; border:0.5px solid #c0d4c0; border-radius:var(--radius-sm); padding:12px 14px; margin-top:1rem; font-size:12px; color:#3a5a3a; line-height:1.7; display:none; }
-.kit-output strong { font-weight:600; display:block; margin-bottom:4px; }
-
-/* Subtype quiz */
-.subtype-quiz-title { font-size:20px; font-weight:600; color:var(--text); margin-bottom:6px; }
-.subtype-quiz-sub { font-size:14px; color:var(--text2); line-height:1.6; margin-bottom:1.5rem; }
-
-@media (max-width:480px) {
-  .intro-stats { grid-template-columns:1fr 1fr; }
-  .subtype-grid { grid-template-columns:1fr; }
-  .email-row { flex-direction:column; }
+@media (max-width:480px){
+  .screen{ padding:20px; }
+  .brand-hero,.mini-brand,.result-hero{ margin-left:-20px; margin-right:-20px; }
+  .intro-title{ font-size:32px; }
+  .result-name{ font-size:34px; }
+  .q-text{ font-size:21px; }
+  .intro-stats{ grid-template-columns:1fr 1fr; }
+  .email-row{ flex-direction:column; }
 }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="physalis" viewBox="0 0 100 120">
+  <g fill="none" stroke="#d69528" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 20 C50 13 49 8 45 4"/>
+    <path d="M50 20 C31 23 19 41 19 59 C19 78 37 95 50 101 C63 95 81 78 81 59 C81 41 69 23 50 20 Z"/>
+    <path d="M50 20 C40 44 40 76 50 101"/>
+    <path d="M50 20 C60 44 60 76 50 101"/>
+    <path d="M50 20 C28 46 26 74 50 101"/>
+    <path d="M50 20 C72 46 74 74 50 101"/>
+  </g>
+  <circle cx="50" cy="62" r="12" fill="#e15a2a"/>
+</symbol></svg>
 <div class="wrap">
 
 <!-- INTRO + CONTEXT PICKER -->
 <div class="screen active" id="screen-intro">
-  <div class="intro-eyebrow">Inner Villain Works</div>
+  <div class="brand-hero">
+    <svg class="mark" viewBox="0 0 100 120" aria-hidden="true"><use href="#physalis"/></svg>
+    <div class="wordmark">LEGEND ACADEMY</div>
+    <div class="tagline">become embodied wisdom</div>
+  </div>
+  <div class="intro-eyebrow">The Inner Villain Quiz</div>
   <div class="intro-title">What is your Inner Villain?</div>
-  <div class="intro-body">Your inner villain is not a flaw. It is the pattern that once kept you safe and now runs your decisions, relationships, and business from the background.<br><br>The quiz adapts as it goes — getting smarter about which of the nine patterns fits you. Select up to three responses per question in the order they resonate.</div>
+  <div class="intro-body">Your inner villain is not a flaw. It is the pattern that once kept you safe, and now it runs your decisions, your relationships, and your work from the background. This quiz adapts as it goes, narrowing in on which of the nine patterns fits you most. Select up to three responses per question, in the order they resonate.</div>
   <div class="intro-stats">
     <div class="stat-card"><div class="stat-n">9</div><div class="stat-l">archetypes</div></div>
-    <div class="stat-card"><div class="stat-n">~6 min</div><div class="stat-l">to complete</div></div>
-    <div class="stat-card"><div class="stat-n">3</div><div class="stat-l">expressions each</div></div>
+    <div class="stat-card"><div class="stat-n">~5 min</div><div class="stat-l">to complete</div></div>
+    <div class="stat-card"><div class="stat-n">4</div><div class="stat-l">contexts</div></div>
   </div>
   <div class="ctx-label">First, choose the context you want to explore:</div>
-  <div class="ctx-hint">Your villain shows up differently depending on where you are. Pick one to start — you can explore others after. Results are saved in your browser.</div>
+  <div class="ctx-hint">Your villain shows up differently depending on where you are. Pick one to start, and you can explore the others after. Results are saved in your browser.</div>
   <div class="ctx-options" id="ctx-options"></div>
   <button class="btn primary full" id="btn-begin" onclick="startQuiz()" disabled>Begin the quiz</button>
-  <div style="text-align:center;margin-top:1rem"><button onclick="clearCompleted()" style="background:none;border:none;font-size:12px;color:var(--text3);cursor:pointer;font-family:inherit;text-decoration:underline">Clear saved results</button></div>
+  <div style="text-align:center;margin-top:1rem"><button onclick="clearCompleted()" class="text-btn">Clear saved results</button></div>
 </div>
 
 <!-- QUIZ -->
 <div class="screen" id="screen-quiz">
+  <div class="mini-brand"><svg class="mark mark-xs" viewBox="0 0 100 120" aria-hidden="true"><use href="#physalis"/></svg><span class="wordmark-sm">LEGEND ACADEMY</span></div>
   <div class="progress-wrap">
     <div class="progress-meta">
       <span id="q-counter">Question 1</span>
@@ -201,7 +212,7 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system,'Se
   <div id="ctx-badge" class="ctx-badge"><div class="ctx-badge-dot"></div><span id="ctx-badge-text"></span></div>
   <div id="phase-badge" class="phase-badge neutral"><div class="phase-dot"></div><span id="phase-text">Finding your pattern</span></div>
   <div id="signal-bar" class="signal-bar" style="display:none">
-    <div class="signal-label" id="sig-label">Anchor · Drift</div>
+    <div class="signal-label" id="sig-label">Pattern focus</div>
     <div class="signal-track">
       <div class="signal-anchor" id="sig-anchor" style="width:50%"></div>
       <div class="signal-drift"  id="sig-drift"  style="width:50%"></div>
@@ -217,77 +228,47 @@ body { background: var(--bg); color: var(--text); font-family: -apple-system,'Se
   </div>
 </div>
 
-<!-- SUBTYPE QUIZ -->
-<div class="screen" id="screen-subtype">
-  <div id="ctx-badge-st" class="ctx-badge" style="margin-bottom:1rem"><div class="ctx-badge-dot"></div><span id="ctx-badge-st-text"></span></div>
-  <div class="subtype-quiz-title" id="st-title">Refining your result</div>
-  <div class="subtype-quiz-sub" id="st-sub"></div>
-  <div class="progress-wrap">
-    <div class="progress-meta"><span id="st-counter">Subtype question 1 of 3</span></div>
-    <div class="progress-track"><div class="progress-fill" id="st-prog" style="width:33%"></div></div>
-  </div>
-  <div class="q-text" id="st-q-text"></div>
-  <div class="q-hint">Select one.</div>
-  <div class="options" id="st-options"></div>
-  <div class="nav">
-    <button class="btn" id="st-btn-back" onclick="stGoBack()" disabled>Back</button>
-    <button class="btn primary" id="st-btn-next" onclick="stGoNext()" disabled>Next</button>
-  </div>
-</div>
+<!-- (subtype refinement removed) -->
 
 <!-- RESULT -->
 <div class="screen" id="screen-result">
-  <div id="r-ctx-badge" class="ctx-badge" style="margin-bottom:1rem"><div class="ctx-badge-dot"></div><span id="r-ctx-text"></span></div>
-  <div class="result-eyebrow" id="r-eyebrow"></div>
-  <div class="result-name" id="r-name"></div>
-  <div class="result-arc" id="r-arc"></div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem">
-    <div id="r-type-badge" class="result-type-badge" style="margin-bottom:0"></div>
-    <div id="r-awareness-badge" class="awareness-badge"></div>
+  <div class="result-hero">
+    <svg class="mark mark-sm" viewBox="0 0 100 120" aria-hidden="true"><use href="#physalis"/></svg>
+    <div id="r-ctx-badge" class="ctx-badge on-dark"><div class="ctx-badge-dot"></div><span id="r-ctx-text"></span></div>
+    <div class="result-eyebrow" id="r-eyebrow"></div>
+    <div class="result-name" id="r-name"></div>
+    <div class="result-arc" id="r-arc"></div>
   </div>
 
   <div class="result-label">Your pattern</div>
   <div class="result-body" id="r-strategy"></div>
-
   <div class="result-label">The core belief driving it</div>
   <div class="result-body" id="r-belief"></div>
-
   <div class="result-label">What you tell yourself</div>
   <div class="result-body" id="r-dialogue"></div>
-
   <div class="result-label">The great truth</div>
   <div class="truth-banner" id="r-truth"></div>
 
   <div class="divider"></div>
-  <div class="result-label">Your pattern map</div>
-  <div class="pattern-map" id="r-pattern-map"></div>
-
-  <div class="divider"></div>
-  <div class="result-label">Your expression</div>
-  <div class="subtype-grid" id="r-subtypes"></div>
-
-  <div class="divider"></div>
-  <div class="result-label">Archetype breakdown</div>
+  <div class="result-label">Where this arc sits among your patterns</div>
   <div class="arc-breakdown" id="r-breakdown"></div>
 
   <div class="email-gate">
-    <div class="email-gate-title">Get your full Inner Villain profile</div>
-    <div class="email-gate-body">Your pattern deep-dive, the perspective shifts specific to your archetype, and what the other side of this pattern looks like — delivered to your inbox.</div>
+    <div class="email-gate-title" id="gate-title">Your complimentary field guide</div>
+    <div class="email-gate-body" id="gate-body"></div>
     <input class="name-input" id="gate-name" type="text" placeholder="First name">
     <div class="email-row">
       <input class="email-input" id="gate-email" type="email" placeholder="Your email address">
-      <button class="btn primary" onclick="submitEmail()">Send it</button>
+      <button class="btn primary" onclick="submitEmail()">Send me the guide</button>
     </div>
     <div class="kit-output" id="kit-output"></div>
   </div>
 
+  <div class="legend-link" id="legend-link" style="display:none"></div>
+
   <div class="retake-section">
-    <div class="retake-title">Discover your villain in a different context</div>
+    <div class="retake-title">See how your villain shifts in another context</div>
     <div class="retake-pills" id="retake-pills"></div>
-    <a class="legend-link" href="https://wiltseek-inspiration.github.io/inner-villain-quiz/legend" target="_blank">
-      <div class="legend-link-text"><strong>Explore the other side</strong>Every villain has a Legend on the other side. Take the Legend Universe quiz to see what you're capable of when the pattern is integrated.</div>
-      <div class="legend-link-arrow">→</div>
-    </a>
   </div>
 </div>
 
@@ -324,14 +305,6 @@ const archetypes = [
     belief:'Order controls chaos and pain.',
     dialogue:'"You should be ashamed and humiliated that you didn\'t do this right."',
     truth:'No rule holds absolute power where kindness is present.',
-    patterns:[
-      'Enforcing impossible standards on yourself and others',
-      'Using shame as a motivational tool',
-      'Making belonging conditional on performance',
-      'Collapsing when the rules stop making sense',
-      'Confusing order with safety',
-      'Critiquing as a way of staying in control'
-    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Perfectionist',desc:'Nothing is worth doing unless it\'s done right. Holds others and self to an impossible standard.'},
       {label:'Wounded Child',name:'The Imposter',desc:'Humbles itself before it can be humbled. Earns its seat over and over.'},
@@ -342,14 +315,6 @@ const archetypes = [
     belief:'Martyrdom is the key to passive control.',
     dialogue:'"I deserve my happy ending. If I\'m not given it, I will take my sacrifice back."',
     truth:'Scarcity with wisdom becomes boundaries.',
-    patterns:[
-      'Giving beyond your capacity and tracking the debt',
-      'Withdrawing love or effort when the ledger feels unbalanced',
-      'Measuring your worth through sacrifice',
-      'Exhaustion as identity',
-      'Passive control through visible suffering',
-      'Rest feeling like failure or selfishness'
-    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Banker',desc:'Creates tasks to accumulate relational debt. Gives to collect.'},
       {label:'Wounded Child',name:'The Abandoned',desc:'Leaves itself first so it cannot be left.'},
@@ -360,14 +325,6 @@ const archetypes = [
     belief:'There aren\'t enough resources to go around. I must fight for mine.',
     dialogue:'"If I lose control, everything falls apart."',
     truth:'What\'s truly for you doesn\'t require control.',
-    patterns:[
-      'Hoarding information, access, or opportunity',
-      'Managing the narrative obsessively',
-      'Scarcity thinking even in abundance',
-      'Control as a substitute for trust',
-      'Envy disguised as ambition',
-      'Appearance management before authenticity'
-    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Influencer',desc:'Maintains control through managing the narrative and appearances.'},
       {label:'Wounded Child',name:'The Envious',desc:'Acquires ambition to manipulate access to what others have.'},
@@ -378,14 +335,6 @@ const archetypes = [
     belief:'I will live in my fantasy rather than face what growing up requires.',
     dialogue:'"Don\'t tell me what to do. I\'ll live in my fantasy forever."',
     truth:'Youth holds freedom that corrupts when it does not mature.',
-    patterns:[
-      'Refusing responsibility while expecting its rewards',
-      'Fantasy as a replacement for action',
-      'Emotional dependence dressed as connection',
-      'Resenting those who grow while staying stuck',
-      'Resisting structure as a form of freedom',
-      'Avoidance of maturity through perpetual becoming'
-    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Entitled',desc:'Blind to the sacrifice of others maintaining their comfort.'},
       {label:'Wounded Child',name:'The Liar',desc:'Disappears into oneself when emotionally adrift and forgotten.'},
@@ -396,14 +345,6 @@ const archetypes = [
     belief:'My darkness is dangerous and must be kept entirely separate.',
     dialogue:'"If I stay in my head, no one can hurt me."',
     truth:'There is no hiding feelings. Your shadow will be expressed whether you choose it or not.',
-    patterns:[
-      'Intellectualizing emotion until it disappears',
-      'A hidden outlet for everything kept composed on the surface',
-      'Retreating into expertise when intimacy arrives',
-      'Hyper-competence as emotional armor',
-      'Feeling everything or feeling nothing — rarely in between',
-      'Analysis as a way of avoiding the body'
-    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Overthinker',desc:'Deep research and thinking deployed as armor against feeling.'},
       {label:'Wounded Child',name:'The Sensitive',desc:'Perceives everything as self-originating. Feels everything too much.'},
@@ -414,14 +355,6 @@ const archetypes = [
     belief:'Anything is worth sacrificing for safety.',
     dialogue:'"If I control everything, I\'ll never get hurt again."',
     truth:'Living fully is worth the risk of pain.',
-    patterns:[
-      'Catastrophizing as a way to justify avoidance',
-      'Isolating others to keep them close',
-      'Safety-seeking at the cost of aliveness',
-      'Loyalty to the familiar even when it harms',
-      'Bracing for the next disaster before the current one ends',
-      'Confusing predictability with love'
-    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Catastrophist',desc:'Avoidance of risk that ends up attracting the very risks avoided.'},
       {label:'Wounded Child',name:'The Outcast',desc:'The world is out to get me, so there\'s no point trying.'},
@@ -432,14 +365,6 @@ const archetypes = [
     belief:'If I have people\'s attention, I am loved.',
     dialogue:'"I\'ll become whatever you want — just don\'t ignore me."',
     truth:'Satiation exists only in the present moment.',
-    patterns:[
-      'Shapeshifting to match what the room seems to want',
-      'Attention as a substitute for love',
-      'Performing presence instead of inhabiting it',
-      'Collecting identities without settling into one',
-      'Deflection through humor when things get real',
-      'Hunger that returns immediately after being fed'
-    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Thief',desc:'Plagiarism as a path to the identity they want but haven\'t built.'},
       {label:'Wounded Child',name:'The Defensive',desc:'Overwhelms others with argument to protect an unguarded self.'},
@@ -450,38 +375,31 @@ const archetypes = [
     belief:'I only protect those who follow my ideology.',
     dialogue:'"If you\'re not on my side, you\'re the enemy."',
     truth:'No justification of righteousness is worth harming another.',
-    patterns:[
-      'Conviction so strong it becomes coercive',
-      'Correcting others as a form of love',
-      'Seeing dissent as betrayal',
-      'Taking the blame for everything as covert control',
-      'Vision that cannot tolerate imperfect execution',
-      'Righteousness as a cover for fear of irrelevance'
-    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Fixer',desc:'Does everyone\'s thinking for them, uninvited and certain of their rightness.'},
       {label:'Wounded Child',name:'The Pathogen',desc:'Takes the blame for everything as a covert form of control.'},
       {label:'Covert',name:'The Sacrificial',desc:'Self-immolation as a way to influence outcomes when direct control fails.'}
     ]},
-  { id:9, arc:'Arc 9 — Embodiment', name:'Invisible Destroyer', theme:'Destruction as a vice', type:'anchor',
+  { id:9, arc:'Arc 9 — Creation', name:'Invisible Destroyer', theme:'Destruction as a vice', type:'anchor',
     strategy:'Destroy memory, flow, luck, imagination, and completion before they can be taken away or proven insufficient.',
     belief:'Everything I touch turns to dust.',
     dialogue:'"If I can\'t build something perfect, I\'ll destroy everything before anyone else can."',
     truth:'Imagination and inspiration unused is inverted into self-destruction.',
-    patterns:[
-      'Sabotaging completion before anyone else can reject it',
-      'Overwhelm as a reason not to begin',
-      'Floods of ideas with very few arrivals',
-      'Questioning as a permanent delay disguised as discernment',
-      'Relief-seeking that prevents full presence',
-      'Confusing destruction with creative freedom'
-    ],
     subtypes:[
       {label:'Successful Antagonist',name:'The Questioner',desc:'Questioning as a permanent delay to action disguised as discernment.'},
       {label:'Wounded Child',name:'The Overwhelmed',desc:'Life is too much — so nothing begins and nothing completes.'},
       {label:'Covert',name:'The Addict',desc:'Fixates on what provides relief as an escape from full embodiment.'}
     ]}
 ];
+
+// ─── COMPLIMENTARY FIELD GUIDES (per arc) ────────────────────────
+// Replace '#' with the hosted PDF / LearnWorlds URL for each arc's freebie.
+const PDF_URLS = {1:'#',2:'#',3:'#',4:'#',5:'#',6:'#',7:'#',8:'#',9:'#'};
+
+// ─── PAIRED LEGEND (forward-facing skill per arc) ───────────────────
+const LEGENDS = {1:'The Equalizer',2:'The Nourisher',3:'The Inventor',4:'The Traveller',5:'The Integrator',6:'The Healer',7:'The Fabricator',8:'The Channeler',9:'The Architect'};
+// Set this to the Legend quiz URL to show the cross-link, or leave '' to hide it.
+const LEGEND_QUIZ_URL = '';
 
 // ─── QUESTIONS ───────────────────────────────────────────────────────────────
 // {CTX_PHRASE} → context.qPhrase, {REL_PHRASE} → context.relationPhrase, {LOW_PHRASE} → context.lowPhrase
@@ -604,8 +522,8 @@ const phase1Questions = [
   { text:"When someone succeeds at something you also wanted {CTX_PHRASE}, your honest reaction is:",
     opts:[
       {text:"Critique what they did wrong that nobody's saying",arcs:{1:3}},
-      {text:"Feel quietly abandoned — you worked harder and it went unnoticed",arcs:{2:3}},
-      {text:"Redouble your efforts and think about how to close the gap",arcs:{3:3}},
+      {text:"Feel quietly betrayed — you worked harder and it went unnoticed",arcs:{2:3}},
+      {text:"Study what they have that you don't, and how to close the gap",arcs:{3:3}},
       {text:"Shrink your own ambition to match what now feels realistic",arcs:{4:3}},
       {text:"Intellectualize why it worked for them but might not work for you",arcs:{5:3}},
       {text:"Tell yourself something will probably go wrong for them eventually",arcs:{6:3}},
@@ -675,8 +593,7 @@ const phase1Questions = [
       {text:"I push through — things fall apart or fall below standard if I slow down",arcs:{1:3,3:1}},
       {text:"I wait to be offered it — asking feels like announcing failure",arcs:{2:3,4:1}},
       {text:"I hide the need and maintain the appearance of being fine",arcs:{3:3,7:1}},
-      {text:"I try give myself time, I deserve it after all. But it rarely works out.",arcs:{4:3,1:1},
-        ctxText:{parent:"I take breaks often — I deserve to be taken care of too"}},
+      {text:"I don't feel I've earned it yet",arcs:{4:3,1:1}},
       {text:"I research recovery strategies instead of actually recovering",arcs:{5:3,9:1}},
       {text:"Rest feels unsafe — something bad might happen if I stop watching",arcs:{6:3,5:1}},
       {text:"I keep going until someone notices and acknowledges how much I'm doing",arcs:{7:3,2:1}},
@@ -978,10 +895,10 @@ function renderQ() {
     btext.textContent = 'Finding your pattern';
   } else if (anchorScore >= driftScore) {
     badge.className = 'phase-badge anchor';
-    btext.textContent = 'Anchor pattern detected';
+    btext.textContent = 'Your pattern is taking shape';
   } else {
     badge.className = 'phase-badge drift';
-    btext.textContent = 'Drift pattern detected';
+    btext.textContent = 'Your pattern is taking shape';
   }
 
   const sigBar = document.getElementById('signal-bar');
@@ -992,7 +909,7 @@ function renderQ() {
     const dp = 100 - ap;
     document.getElementById('sig-anchor').style.width = ap + '%';
     document.getElementById('sig-drift').style.width = dp + '%';
-    document.getElementById('sig-label').textContent = `Anchor ${ap}% · Drift ${dp}%`;
+    document.getElementById('sig-label').textContent = 'Focusing your result';
   } else {
     sigBar.style.display = 'none';
   }
@@ -1109,72 +1026,10 @@ function calculateResult() {
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   const winnerId = parseInt(sorted[0][0]);
   winnerArch = archetypes.find(a => a.id === winnerId);
-  subtypeAnswers = [];
-  currentST = 0;
-  showSubtypeQuiz();
-}
-
-// ─── SUBTYPE QUIZ ──────────────────────────────────────────────────────────────
-function showSubtypeQuiz() {
-  show('screen-subtype');
-  document.getElementById('ctx-badge-st-text').textContent = ctx.badge;
-  document.getElementById('st-title').textContent = `Refining your ${winnerArch.name} result`;
-  document.getElementById('st-sub').textContent = `You've landed in Arc ${winnerArch.id} — ${winnerArch.arc.split('—')[1].trim()}. These three questions identify which expression of the pattern fits you most.`;
-  renderST();
-}
-
-function renderST() {
-  const q = subtypeQuestions[currentST];
-  document.getElementById('st-counter').textContent = `Subtype question ${currentST + 1} of 3`;
-  document.getElementById('st-prog').style.width = ((currentST + 1) / 3 * 100) + '%';
-  document.getElementById('st-q-text').textContent = q.text;
-  const container = document.getElementById('st-options');
-  container.innerHTML = '';
-  q.opts.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'opt' + (subtypeAnswers[currentST] === i ? ' sel-1' : '');
-    btn.innerHTML = `<span class="sel-badge">${subtypeAnswers[currentST] === i ? '1' : '○'}</span><span>${opt.text}<br><small style="opacity:0.55;font-size:11px">${winnerArch.subtypes[opt.subtype].label}</small></span>`;
-    btn.onclick = () => {
-      subtypeAnswers[currentST] = i;
-      container.querySelectorAll('.opt').forEach((b, j) => {
-        b.className = 'opt' + (j === i ? ' sel-1' : '');
-        b.querySelector('.sel-badge').textContent = j === i ? '1' : '○';
-      });
-      document.getElementById('st-btn-next').disabled = false;
-    };
-    container.appendChild(btn);
-  });
-  document.getElementById('st-btn-back').disabled = currentST === 0;
-  document.getElementById('st-btn-next').disabled = subtypeAnswers[currentST] === undefined;
-  document.getElementById('st-btn-next').textContent = currentST === 2 ? 'See my result' : 'Next';
-}
-
-function stGoNext() {
-  if (subtypeAnswers[currentST] === undefined) return;
-  if (currentST === 2) { showResult(); return; }
-  currentST++;
-  renderST();
-}
-
-function stGoBack() {
-  if (currentST > 0) { currentST--; renderST(); }
+  showResult();
 }
 
 // ─── RESULT ───────────────────────────────────────────────────────────────────
-function getAwarenessLevel() {
-  // Based on subtype answers — how the pattern was described
-  // 0 = Successful Antagonist (more functional/aware), 1 = Wounded Child (less aware), 2 = Covert (least visible to self)
-  const stVotes = [0, 0, 0];
-  subtypeAnswers.forEach((ans, qi) => {
-    const subtype = subtypeQuestions[qi].opts[ans]?.subtype;
-    if (subtype !== undefined) stVotes[subtype]++;
-  });
-  const dominant = stVotes.indexOf(Math.max(...stVotes));
-  if (dominant === 0) return 'recognizing';
-  if (dominant === 2) return 'unaware';
-  return 'recognizing';
-}
-
 function showResult() {
   completedContexts[ctx.id] = { archetype: winnerArch.name };
   saveCompleted(completedContexts);
@@ -1182,92 +1037,53 @@ function showResult() {
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
 
-  const stVotes = [0, 0, 0];
-  subtypeAnswers.forEach((ans, qi) => {
-    const subtype = subtypeQuestions[qi].opts[ans]?.subtype;
-    if (subtype !== undefined) stVotes[subtype]++;
-  });
-  const resultSubtype = stVotes.indexOf(Math.max(...stVotes));
-  const awareness = getAwarenessLevel();
-  const awarenessLabels = { unaware: 'Pattern running', recognizing: 'Beginning to see it', working: 'Working with it' };
-
-  // Header
   document.getElementById('r-ctx-text').textContent = ctx.badge;
   document.getElementById('r-eyebrow').textContent = arch.arc;
   document.getElementById('r-name').textContent = arch.name;
   document.getElementById('r-arc').textContent = arch.theme;
 
-  // Type badge
-  const badge = document.getElementById('r-type-badge');
-  badge.style.cssText = arch.type === 'anchor'
-    ? 'background:var(--anchor-bg);color:var(--anchor);border:0.5px solid var(--anchor-border);margin-bottom:0'
-    : 'background:var(--drift-bg);color:var(--drift);border:0.5px solid var(--drift-border);margin-bottom:0';
-  badge.textContent = arch.type === 'anchor' ? 'Anchor pattern' : 'Drift pattern';
-
-  // Awareness badge
-  const awBadge = document.getElementById('r-awareness-badge');
-  awBadge.className = 'awareness-badge awareness-' + awareness;
-  awBadge.textContent = awarenessLabels[awareness];
-
-  // Core content
   document.getElementById('r-strategy').textContent = arch.strategy;
   document.getElementById('r-belief').textContent = arch.belief;
   document.getElementById('r-dialogue').textContent = arch.dialogue;
   document.getElementById('r-truth').textContent = arch.truth;
 
-  // Pattern map — 6 patterns, distributed across awareness levels
-  const patternMap = document.getElementById('r-pattern-map');
-  patternMap.innerHTML = '';
-  const ratio = resultSubtype === 0 ? 0.7 : resultSubtype === 2 ? 0.2 : 0.45;
-  arch.patterns.forEach((pattern, i) => {
-    let state, dotClass, statusText;
-    if (i < 2) {
-      state = ratio >= 0.6 ? 'integrating' : ratio >= 0.35 ? 'visible' : 'running';
-    } else if (i < 4) {
-      state = ratio >= 0.35 ? 'visible' : 'running';
-    } else {
-      state = ratio >= 0.6 ? 'visible' : 'running';
-    }
-    const statusMap = { running: 'Still running', visible: 'Becoming visible', integrating: 'Being integrated' };
-    const item = document.createElement('div');
-    item.className = 'pattern-item';
-    item.innerHTML = `<div class="pattern-dot ${state}"></div><div><div class="pattern-text">${pattern}</div><div class="pattern-status ${state}">${statusMap[state]}</div></div>`;
-    patternMap.appendChild(item);
-  });
-
-  // Subtypes
-  const stDiv = document.getElementById('r-subtypes');
-  stDiv.innerHTML = '';
-  arch.subtypes.forEach((st, i) => {
-    const card = document.createElement('div');
-    card.className = 'subtype-card' + (i === resultSubtype ? ' is-result' : '');
-    card.innerHTML = `<div class="subtype-label">${st.label}${i === resultSubtype ? ' · Your expression' : ''}</div><div class="subtype-name">${st.name}</div><div class="subtype-desc">${st.desc}</div>`;
-    stDiv.appendChild(card);
-  });
-
-  // Breakdown bars
+  // Breakdown bars — single brand treatment, winning arc highlighted in gild
   const breakdown = document.getElementById('r-breakdown');
   breakdown.innerHTML = '';
   sorted.slice(0, 5).forEach(([id, sc]) => {
     const a = archetypes.find(x => x.id === parseInt(id));
     if (!a) return;
     const pct = Math.round(sc / total * 100);
-    const fillClass = parseInt(id) === arch.id ? 'arc-fill' : (a.type === 'anchor' ? 'arc-fill is-anchor' : 'arc-fill is-drift');
+    const fillClass = parseInt(id) === arch.id ? 'arc-fill win' : 'arc-fill';
     const row = document.createElement('div');
     row.className = 'arc-row';
     row.innerHTML = `<div class="arc-name">${a.name}</div><div class="arc-track"><div class="${fillClass}" style="width:${pct}%"></div></div><div class="arc-pct">${pct}%</div>`;
     breakdown.appendChild(row);
   });
 
-  // Retake pills
+  // Complimentary field guide CTA
+  document.getElementById('gate-title').textContent = `Your complimentary ${arch.name} field guide`;
+  document.getElementById('gate-body').textContent = `We will send the field guide for this arc to your inbox. It expands the voice you just met, walks you through the four-step CAPO practice, and gives you two worked examples to try with your own material. There is no cost, and you can read it at your own pace.`;
+
+  // Paired Legend cross-link (shown only when a Legend quiz URL is set)
+  const legendDiv = document.getElementById('legend-link');
+  const legendName = LEGENDS[arch.id];
+  if (LEGEND_QUIZ_URL && legendName) {
+    legendDiv.style.display = 'block';
+    legendDiv.innerHTML = `<div class="legend-label">The other half of this arc</div><div class="legend-body">Every villain has a Legend. ${legendName} is the forward-facing skill that grows from this same arc, approached from the opposite direction.</div><a class="legend-cta" href="${LEGEND_QUIZ_URL}">Meet ${legendName} in the Legend quiz</a>`;
+  } else {
+    legendDiv.style.display = 'none';
+  }
+
+  // Retake pills — show unused contexts
   const pillsDiv = document.getElementById('retake-pills');
   pillsDiv.innerHTML = '';
   CONTEXTS.filter(c => c.id !== ctx.id).forEach(c => {
     const pill = document.createElement('button');
     const done = completedContexts[c.id];
     pill.className = 'retake-pill' + (done ? ' done' : '');
-    pill.innerHTML = `${c.emoji} ${done ? `${c.label} — ${done.archetype}` : c.label}`;
-    if (!done) pill.onclick = () => retakeAs(c);
+    pill.innerHTML = `${c.emoji} ${done ? `${c.label} · ${done.archetype}` : c.label}`;
+    if (!done) { pill.onclick = () => retakeAs(c); }
     pillsDiv.appendChild(pill);
   });
 
@@ -1295,77 +1111,41 @@ function retakeAs(newCtx) {
   renderQ();
 }
 
-async function submitEmail() {
+function submitEmail() {
   const name = document.getElementById('gate-name').value.trim();
   const email = document.getElementById('gate-email').value.trim();
   if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
-
   const arch = winnerArch;
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
   const breakdown = sorted.slice(0, 3).map(([id, sc]) => {
     const a = archetypes.find(x => x.id === parseInt(id));
-    return a.name + ':' + Math.round(sc / total * 100) + '%';
+    return `${a.name}:${Math.round(sc / total * 100)}%`;
   }).join(', ');
 
-  const kitBox = document.getElementById('kit-output');
-  const submitBtn = document.querySelector('.email-gate .btn.primary');
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Sending...';
+  // Kit payload. NOTE: the subscribe endpoint ignores a tags array, so tags need
+  // two sequential calls (create/retrieve the tag, then subscribe to it). Custom
+  // fields go in the `fields` object on the subscribe call. Wire the live fetch
+  // to form 9272267 here. The PDF itself is delivered by the Kit automation.
+  const kitPayload = {
+    first_name: name || '',
+    email_address: email,
+    fields: {
+      quiz_result: arch.name,
+      quiz_type: arch.type,
+      quiz_context: ctx.id,
+      quiz_breakdown: breakdown
+    },
+    tags: ['Quiz - Completed', `Quiz - Result - ${arch.name}`, arch.type === 'anchor' ? 'Quiz - Result - Anchor' : 'Quiz - Result - Drift'],
+    pdf_url: PDF_URLS[arch.id]
+  };
+  console.log('Kit payload (wire live POST here):', kitPayload);
 
-  try {
-    const response = await fetch('https://api.convertkit.com/v3/forms/9272267/subscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        api_key: '0BPlyKxmCmLH7f7XDvrqsg',
-        first_name: name || '',
-        email: email,
-       fields: {
-        quiz_result: arch.name,
-        ['quiz_result_' + ctx.id]: arch.name,
-        quiz_type: arch.type,
-        quiz_context: ctx.id,
-        quiz_breakdown: breakdown
-      }
-      }
-      })
-    });
-    const data = await response.json();
-    console.log('Kit response:', JSON.stringify(data));
-    if (data.subscription) {
-      const tagNames = ['Quiz - Completed', 'Quiz - Result - ' + arch.name];
-      await Promise.all(tagNames.map(tagName =>
-        fetch('https://api.convertkit.com/v3/tags', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ api_secret: '1u8mzG7FCdtT0GlFEvepW5yzUrrBTDHGrS4SM0rw55A', name: tagName })
-        })
-        .then(r => r.json())
-        .then(tagData => {
-          if (tagData.tag) {
-            return fetch('https://api.convertkit.com/v3/tags/' + tagData.tag.id + '/subscribe', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ api_secret: '1u8mzG7FCdtT0GlFEvepW5yzUrrBTDHGrS4SM0rw55A', email: email })
-            });
-          }
-        })
-      ));
-      kitBox.style.display = 'block';
-      kitBox.innerHTML = '<strong>You\'re in.</strong> Your Inner Villain profile is on its way to ' + email + '.';
-      submitBtn.textContent = 'Sent';
-    } else {
-      throw new Error(JSON.stringify(data));
-    }
-  } catch (err) {
-    console.error('Kit error:', err);
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Send it';
-    kitBox.style.display = 'block';
-    kitBox.innerHTML = 'Something went wrong — ' + err.message;
-  }
+  const box = document.getElementById('kit-output');
+  box.style.display = 'block';
+  box.innerHTML = `<strong>Check your inbox.</strong>We are sending your ${arch.name} field guide to ${email}. Give it a few minutes, and look in promotions or spam if it has not arrived.`;
 }
+
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
 init();
 </script>
