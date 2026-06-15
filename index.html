@@ -774,39 +774,17 @@ const phase2Questions = [
     ]}
 ];
 
-const subtypeQuestions = [
-  { text:"When the pattern runs at full strength, others experience you as:",
-    opts:[
-      {text:"Demanding, exacting, or critical — a high standard turned outward",subtype:0},
-      {text:"Shrinking, self-erasing, or apologizing preemptively",subtype:1},
-      {text:"Smooth, accommodating, hard to read — keeping the peace above all else",subtype:2}
-    ]},
-  { text:"When you're most triggered, your behavior leans toward:",
-    opts:[
-      {text:"Taking over, correcting, or making the stakes explicit",subtype:0},
-      {text:"Collapsing inward, going quiet, or disappearing",subtype:1},
-      {text:"Deflecting, minimizing, or making others feel okay at your own expense",subtype:2}
-    ]},
-  { text:"The role you most often find yourself playing in a difficult dynamic:",
-    opts:[
-      {text:"The one who sees what's wrong and says so — or enforces it silently",subtype:0},
-      {text:"The one who absorbs the impact and doesn't say what they actually need",subtype:1},
-      {text:"The one who makes it easier for everyone else at the cost of themselves",subtype:2}
-    ]}
-];
-
 // ─── STATE ────────────────────────────────────────────────────────────────────
 let ctx = null;
 let scores = {};
 let answers = [];
 let allQuestions = [];
+let questionOpts = [];
 let currentQ = 0;
 let phaseTransitioned = false;
 let activeArcs = [1,2,3,4,5,6,7,8,9];
 let anchorScore = 0, driftScore = 0;
 let winnerArch = null;
-let subtypeAnswers = [];
-let currentST = 0;
 
 // ─── PERSISTENCE ─────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'ivw_completed_contexts';
@@ -862,6 +840,15 @@ function resolveOptText(opt) {
   return opt.text;
 }
 
+// Fisher-Yates: randomize answer order so no arc sits in a fixed position.
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 function startQuiz() {
   if (!ctx) return;
   for (let i = 1; i <= 9; i++) scores[i] = 0;
@@ -871,6 +858,7 @@ function startQuiz() {
   activeArcs = [1,2,3,4,5,6,7,8,9];
   anchorScore = 0; driftScore = 0;
   allQuestions = [...phase1Questions];
+  questionOpts = [];
   document.getElementById('ctx-badge-text').textContent = ctx.badge;
   show('screen-quiz');
   renderQ();
@@ -917,7 +905,12 @@ function renderQ() {
   document.getElementById('q-text').textContent = applyCtx(q.text);
   document.getElementById('sel-count').textContent = '0 of 3 selected';
 
-  const opts = q.anchorOpts ? getAdaptedOpts(q) : q.opts;
+  let opts = questionOpts[currentQ];
+  if (!opts) {
+    const base = q.anchorOpts ? getAdaptedOpts(q) : q.opts;
+    opts = shuffle(base.slice());
+    questionOpts[currentQ] = opts;
+  }
   const container = document.getElementById('options');
   container.innerHTML = '';
   const saved = answers[currentQ] || [];
@@ -1103,8 +1096,7 @@ function retakeAs(newCtx) {
   activeArcs = [1,2,3,4,5,6,7,8,9];
   anchorScore = 0; driftScore = 0;
   allQuestions = [...phase1Questions];
-  subtypeAnswers = [];
-  currentST = 0;
+  questionOpts = [];
   winnerArch = null;
   document.getElementById('ctx-badge-text').textContent = ctx.badge;
   show('screen-quiz');
