@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Inner Villain Quiz — Legend Academy</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,...">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1070,7 +1071,7 @@ function showResult() {
   // read and prefill custom fields from these params — if not, they're simply
   // ignored and the link still works as a plain opt-in.
   document.getElementById('choose-title').textContent = 'Choose your field guide';
-  document.getElementById('choose-body').textContent = `Your quiz pointed to ${arch.name}, marked below. Every pattern has its own guide. <b>The first one is free,<b> and each additional guide is available at a discount through the Legend Academy.`;
+  document.getElementById('choose-body').textContent = `Your quiz pointed to ${arch.name}, marked below. Every pattern has its own pdf guide. Choose wisely and what you are drawn to. <strong>The first one is free, and each additional guide is available at a discount through the Legend Academy.</strong>`;
 
   const resultBreakdown = sorted.slice(0, 3).map(([id, sc]) => {
     const a = archetypes.find(x => x.id === parseInt(id));
