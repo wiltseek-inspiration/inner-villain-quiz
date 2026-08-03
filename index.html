@@ -1070,7 +1070,7 @@ function showResult() {
   // read and prefill custom fields from these params — if not, they're simply
   // ignored and the link still works as a plain opt-in.
   document.getElementById('choose-title').textContent = 'Choose your field guide';
-  document.getElementById('choose-body').textContent = `Your quiz pointed to ${arch.name}, marked below. Every pattern has its own guide. The first one is free, and each additional guide is available at a discount through the Legend Academy.`;
+  document.getElementById('choose-body').textContent = `Your quiz pointed to ${arch.name}, marked below. Every pattern has its own guide. <b>The first one is free,<b> and each additional guide is available at a discount through the Legend Academy.`;
 
   const resultBreakdown = sorted.slice(0, 3).map(([id, sc]) => {
     const a = archetypes.find(x => x.id === parseInt(id));
