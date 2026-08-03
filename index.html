@@ -941,7 +941,7 @@ function renderQ() {
 
   document.getElementById('btn-back').disabled = currentQ === 0;
   document.getElementById('btn-next').disabled = !answers[currentQ] || answers[currentQ].length === 0;
-  document.getElementById('btn-next').textContent = currentQ === allQuestions.length - 1 ? 'See my result' : 'Next';
+  document.getElementById('btn-next').textContent = currentQ === allQuestions.length - 1 ? 'Refine my result' : 'Next';
 }
 
 function getAdaptedOpts(q) {
