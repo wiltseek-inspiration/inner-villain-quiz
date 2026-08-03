@@ -125,17 +125,16 @@ body{ background:var(--bg); color:var(--text); font-family:var(--sans); min-heig
 .arc-fill.win{ background:var(--gild); opacity:1; }
 .arc-pct{ font-size:12px; color:var(--text3); min-width:34px; text-align:right; }
 
-/* Email gate (complimentary guide) */
-.email-gate{ background:var(--gild-tint); border:1px solid var(--gild-line); border-radius:var(--radius); padding:1.6rem; margin-top:1.5rem; }
-.email-gate-title{ font-family:var(--serif); font-size:23px; font-weight:600; color:var(--midnight); margin-bottom:8px; line-height:1.2; }
-.email-gate-body{ font-size:13px; color:var(--text2); line-height:1.7; margin-bottom:1.25rem; }
-.name-input,.email-input{ padding:12px 14px; border:1px solid var(--line2); border-radius:var(--radius-sm); font-size:14px; font-family:inherit; background:var(--surface); color:var(--text); }
-.name-input{ width:100%; margin-bottom:8px; }
-.email-row{ display:flex; gap:8px; }
-.email-input{ flex:1; }
-.name-input:focus,.email-input:focus{ outline:none; border-color:var(--gild); }
-.kit-output{ background:var(--surface); border:1px solid var(--gild-line); border-radius:var(--radius-sm); padding:14px 16px; margin-top:1rem; font-size:13px; color:var(--text2); line-height:1.65; display:none; }
-.kit-output strong{ display:block; margin-bottom:4px; color:var(--midnight); font-family:var(--serif); font-size:17px; font-weight:600; }
+/* Choose your field guide (all nine, computed winner highlighted) */
+.choose-section{ margin-top:1.5rem; }
+.universe-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:1rem; }
+.universe-btn{ position:relative; display:flex; flex-direction:column; gap:2px; padding:12px 14px; border:1px solid var(--line2); border-radius:var(--radius-sm); background:var(--surface); text-decoration:none; transition:all .12s; }
+.universe-btn:hover{ border-color:var(--gild); background:var(--gild-tint); }
+.universe-btn.winner{ border-color:var(--gild); background:var(--gild-tint); }
+.universe-arc{ font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--text3); }
+.universe-name{ font-family:var(--serif); font-size:15px; font-weight:600; color:var(--midnight); }
+.universe-tag{ position:absolute; top:-8px; right:10px; font-size:9px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; background:var(--gild); color:#3a2a08; padding:2px 8px; border-radius:10px; }
+@media (max-width:480px){ .universe-grid{ grid-template-columns:1fr; } }
 
 /* Legend cross-link */
 .legend-link{ margin-top:1.5rem; padding:1.4rem 1.5rem; border:1px solid var(--mist-line); border-radius:var(--radius); background:var(--mist-tint); }
@@ -159,7 +158,6 @@ body{ background:var(--bg); color:var(--text); font-family:var(--sans); min-heig
   .result-name{ font-size:34px; }
   .q-text{ font-size:21px; }
   .intro-stats{ grid-template-columns:1fr 1fr; }
-  .email-row{ flex-direction:column; }
 }
 </style>
 </head>
@@ -186,7 +184,7 @@ body{ background:var(--bg); color:var(--text); font-family:var(--sans); min-heig
   </div>
   <div class="intro-eyebrow">The Inner Villain Quiz</div>
   <div class="intro-title">Discover who is your Inner Villain?</div>
-  <div class="intro-body">Your inner villain is not a flaw. It a quiz that uses our challenging qualities to understand the type of story we find ourselves in and how it runs your decisions, your relationships, and your work from the background. This quiz adapts as it goes, narrowing in on which of the nine patterns fits you most. Select up to three responses per question, in the order they resonate.</div>
+  <div class="intro-body">Your inner villain is not a flaw. It is a quiz that uses our challenging qualities to understand the type of story we find ourselves in and how it runs your decisions, your relationships, and your work from the background. This quiz adapts as it goes, narrowing in on which of the nine patterns fits you most. Select up to three responses per question, in the order they resonate.</div>
   <div class="intro-stats">
     <div class="stat-card"><div class="stat-n">9</div><div class="stat-l">archetypes</div></div>
     <div class="stat-card"><div class="stat-n">~5 min</div><div class="stat-l">to complete</div></div>
@@ -253,15 +251,10 @@ body{ background:var(--bg); color:var(--text); font-family:var(--sans); min-heig
   <div class="result-label">Where this arc sits among your patterns</div>
   <div class="arc-breakdown" id="r-breakdown"></div>
 
-  <div class="email-gate">
-    <div class="email-gate-title" id="gate-title">Your complimentary field guide</div>
-    <div class="email-gate-body" id="gate-body"></div>
-    <input class="name-input" id="gate-name" type="text" placeholder="First name">
-    <div class="email-row">
-      <input class="email-input" id="gate-email" type="email" placeholder="Your email address">
-      <button class="btn primary" onclick="submitEmail()">Send me the guide</button>
-    </div>
-    <div class="kit-output" id="kit-output"></div>
+  <div class="choose-section">
+    <div class="result-label" id="choose-title">Choose your field guide</div>
+    <div class="result-body" id="choose-body"></div>
+    <div class="universe-grid" id="universe-grid"></div>
   </div>
 
   <div class="legend-link" id="legend-link" style="display:none"></div>
@@ -394,7 +387,23 @@ const archetypes = [
 
 // ─── COMPLIMENTARY FIELD GUIDES (per arc) ────────────────────────
 // Replace '#' with the hosted PDF / LearnWorlds URL for each arc's freebie.
-const PDF_URLS = {1:'#',2:'#',3:'#',4:'#',5:'#',6:'#',7:'#',8:'#',9:'#'};
+// ─── PER-ARCHETYPE KIT LANDING PAGES ─────────────────────────────────────
+// Each of these is a live, hosted Kit opt-in form. Submitting one hands the
+// PDF over immediately on email confirmation — there is no tag-based gate on
+// the PDF itself. The "first one free, rest at a discount through the Legend
+// Academy" policy is communicated honestly in the copy below and enforced by
+// Kit's own follow-up sequence per archetype, not by anything on this page.
+const UNIVERSE_URLS = {
+  1:'https://kristina-wiltsee-letters-from-the-center.kit.com/e89a51e1f3',
+  2:'https://kristina-wiltsee-letters-from-the-center.kit.com/fb16196cc0',
+  3:'https://kristina-wiltsee-letters-from-the-center.kit.com/cf594babf5',
+  4:'https://kristina-wiltsee-letters-from-the-center.kit.com/d2deff836e',
+  5:'https://kristina-wiltsee-letters-from-the-center.kit.com/d70a2df6e1',
+  6:'https://kristina-wiltsee-letters-from-the-center.kit.com/6923d29f47',
+  7:'https://kristina-wiltsee-letters-from-the-center.kit.com/d426e56f01',
+  8:'https://kristina-wiltsee-letters-from-the-center.kit.com/6ceebf8765',
+  9:'https://kristina-wiltsee-letters-from-the-center.kit.com/ad63c44f45'
+};
 
 // ─── PAIRED LEGEND (forward-facing skill per arc) ───────────────────
 const LEGENDS = {1:'The Equalizer',2:'The Nourisher',3:'The Inventor',4:'The Traveller',5:'The Integrator',6:'The Healer',7:'The Fabricator',8:'The Channeler',9:'The Architect'};
@@ -1054,9 +1063,38 @@ function showResult() {
     breakdown.appendChild(row);
   });
 
-  // Complimentary field guide CTA
-  document.getElementById('gate-title').textContent = `Your complimentary ${arch.name} field guide`;
-  document.getElementById('gate-body').textContent = `We will send the field guide for this arc to your inbox. It expands the voice you just met, walks you through the four-step CAPO practice, and gives you two worked examples to try with your own material. There is no cost for this first pdf, and you can read it at your own pace. If you want to retake in another context, only sign up for the Villain you are interested in exploring.`;
+  // Choose your field guide — all nine, computed winner highlighted.
+  // Each link carries the quiz's own computed result as URL params (quiz_result,
+  // quiz_context, quiz_breakdown), separate from whichever guide the person
+  // actually picks. Confirm with Kit that the destination forms are set up to
+  // read and prefill custom fields from these params — if not, they're simply
+  // ignored and the link still works as a plain opt-in.
+  document.getElementById('choose-title').textContent = 'Choose your field guide';
+  document.getElementById('choose-body').textContent = `Your quiz pointed to ${arch.name}, marked below. Every pattern has its own guide. The first one is free, and each additional guide is available at a discount through the Legend Academy.`;
+
+  const resultBreakdown = sorted.slice(0, 3).map(([id, sc]) => {
+    const a = archetypes.find(x => x.id === parseInt(id));
+    return `${a.name}:${Math.round(sc / total * 100)}%`;
+  }).join(', ');
+
+  const grid = document.getElementById('universe-grid');
+  grid.innerHTML = '';
+  archetypes.forEach(a => {
+    const link = document.createElement('a');
+    link.className = 'universe-btn' + (a.id === arch.id ? ' winner' : '');
+    const dest = UNIVERSE_URLS[a.id] || '#';
+    if (dest !== '#') {
+      const params = new URLSearchParams({ quiz_result: arch.name, quiz_context: ctx.id, quiz_breakdown: resultBreakdown });
+      link.href = dest + (dest.includes('?') ? '&' : '?') + params.toString();
+    } else {
+      link.href = '#';
+    }
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.innerHTML = (a.id === arch.id ? '<span class="universe-tag">Your result</span>' : '') +
+      `<span class="universe-arc">${a.arc}</span><span class="universe-name">${a.name}</span>`;
+    grid.appendChild(link);
+  });
 
   // Paired Legend cross-link (shown only when a Legend quiz URL is set)
   const legendDiv = document.getElementById('legend-link');
@@ -1080,10 +1118,6 @@ function showResult() {
     pillsDiv.appendChild(pill);
   });
 
-  document.getElementById('gate-name').value = '';
-  document.getElementById('gate-email').value = '';
-  document.getElementById('kit-output').style.display = 'none';
-
   show('screen-result');
 }
 
@@ -1101,41 +1135,6 @@ function retakeAs(newCtx) {
   document.getElementById('ctx-badge-text').textContent = ctx.badge;
   show('screen-quiz');
   renderQ();
-}
-
-function submitEmail() {
-  const name = document.getElementById('gate-name').value.trim();
-  const email = document.getElementById('gate-email').value.trim();
-  if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
-  const arch = winnerArch;
-  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-  const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
-  const breakdown = sorted.slice(0, 3).map(([id, sc]) => {
-    const a = archetypes.find(x => x.id === parseInt(id));
-    return `${a.name}:${Math.round(sc / total * 100)}%`;
-  }).join(', ');
-
-  // Kit payload. NOTE: the subscribe endpoint ignores a tags array, so tags need
-  // two sequential calls (create/retrieve the tag, then subscribe to it). Custom
-  // fields go in the `fields` object on the subscribe call. Wire the live fetch
-  // to form 9272267 here. The PDF itself is delivered by the Kit automation.
-  const kitPayload = {
-    first_name: name || '',
-    email_address: email,
-    fields: {
-      quiz_result: arch.name,
-      quiz_type: arch.type,
-      quiz_context: ctx.id,
-      quiz_breakdown: breakdown
-    },
-    tags: ['Quiz - Completed', `Quiz - Result - ${arch.name}`, arch.type === 'anchor' ? 'Quiz - Result - Anchor' : 'Quiz - Result - Drift'],
-    pdf_url: PDF_URLS[arch.id]
-  };
-  console.log('Kit payload (wire live POST here):', kitPayload);
-
-  const box = document.getElementById('kit-output');
-  box.style.display = 'block';
-  box.innerHTML = `<strong>Check your inbox.</strong>We are sending your ${arch.name} field guide to ${email}. Give it a few minutes, and look in promotions or spam if it has not arrived.`;
 }
 
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
