@@ -301,7 +301,7 @@ const CONTEXTS = [
 const archetypes = [
   { id:1, arc:'Arc 1 — Belonging', name:'Obedient Critic', theme:'Belonging to your role', type:'anchor',
     strategy:'Destroy the morale and sense of self of anyone who doesn\'t follow the rules you have internalized as correct.',
-    belief:'Order controls chaos and pain.',
+    belief:'Hierarchy controls chaos and pain.',
     dialogue:'"You should be ashamed and humiliated that you didn\'t do this right."',
     truth:'No rule holds absolute power where kindness is present.',
     subtypes:[
@@ -309,7 +309,7 @@ const archetypes = [
       {label:'Wounded Child',name:'The Imposter',desc:'Humbles itself before it can be humbled. Earns its seat over and over.'},
       {label:'Covert',name:'The Pleaser',desc:'Makes everyone comfortable as a strategy to prevent loss of belonging.'}
     ]},
-  { id:2, arc:'Arc 2 — Energy', name:'Vengeful Martyr', theme:'Energy weaponized', type:'drift',
+  { id:2, arc:'Arc 2 — Energy', name:'Vengeful Martyr', theme:'Energy and effort silently weaponized', type:'drift',
     strategy:'Destroy the bridges to others that you\'ve sacrificed to build, when the debt goes unpaid.',
     belief:'Martyrdom is the key to passive control.',
     dialogue:'"I deserve my happy ending. If I\'m not given it, I will take my sacrifice back."',
@@ -319,8 +319,8 @@ const archetypes = [
       {label:'Wounded Child',name:'The Abandoned',desc:'Leaves itself first so it cannot be left.'},
       {label:'Covert',name:'The Apologetic',desc:'Only rests when there\'s nothing left to be done — which is never.'}
     ]},
-  { id:3, arc:'Arc 3 — Resources', name:'Vain Controller', theme:'Hoarding resources', type:'anchor',
-    strategy:'Deny others resources in order to gain control over them.',
+  { id:3, arc:'Arc 3 — Resources', name:'Vain Controller', theme:'Hoarding resources and influence', type:'anchor',
+    strategy:'Work diligently to maintain the appearance of control in order to gain control over resources.',
     belief:'There aren\'t enough resources to go around. I must fight for mine.',
     dialogue:'"If I lose control, everything falls apart."',
     truth:'What\'s truly for you doesn\'t require control.',
@@ -329,9 +329,9 @@ const archetypes = [
       {label:'Wounded Child',name:'The Envious',desc:'Acquires ambition to manipulate access to what others have.'},
       {label:'Covert',name:'The Compliant',desc:'Appears meek and harmless to avoid losing access to resources.'}
     ]},
-  { id:4, arc:'Arc 4 — Growth', name:'Eternal Child', theme:'Vindictive individuation', type:'drift',
-    strategy:'Isolate and capture others so they only answer to you, refusing the maturation that responsibility requires.',
-    belief:'I will live in my fantasy rather than face what growing up requires.',
+  { id:4, arc:'Arc 4 — Growth', name:'Eternal Child', theme:'Victimized individuation and arrested development', type:'drift',
+    strategy:'Stay in the state of victimization, therefore refusing the maturation that responsibility requires.',
+    belief:'I will live in my fantasy rather than face what growing up requires me to face.',
     dialogue:'"Don\'t tell me what to do. I\'ll live in my fantasy forever."',
     truth:'Youth holds freedom that corrupts when it does not mature.',
     subtypes:[
@@ -339,10 +339,10 @@ const archetypes = [
       {label:'Wounded Child',name:'The Liar',desc:'Disappears into oneself when emotionally adrift and forgotten.'},
       {label:'Covert',name:'The Romantic',desc:'Falls quickly into love with someone who will take care of them.'}
     ]},
-  { id:5, arc:'Arc 5 — Balance', name:'Evasive Expert', theme:'Imbalance of good and evil', type:'anchor',
-    strategy:'Create a dark passenger — a destructive outlet kept hidden while maintaining a composed, capable exterior.',
-    belief:'My darkness is dangerous and must be kept entirely separate.',
-    dialogue:'"If I stay in my head, no one can hurt me."',
+  { id:5, arc:'Arc 5 — Balance', name:'Evasive Expert', theme:'Imbalance of heart and head', type:'anchor',
+    strategy:'Create a dark passenger — a destructive or detached outlet kept hidden while maintaining a composed, capable exterior.',
+    belief:'My feeling is dangerous and must be kept entirely separate.',
+    dialogue:'"If I stay in my head, I won't feel deeply and be vulnerable."',
     truth:'There is no hiding feelings. Your shadow will be expressed whether you choose it or not.',
     subtypes:[
       {label:'Successful Antagonist',name:'The Overthinker',desc:'Deep research and thinking deployed as armor against feeling.'},
@@ -359,7 +359,7 @@ const archetypes = [
       {label:'Wounded Child',name:'The Outcast',desc:'The world is out to get me, so there\'s no point trying.'},
       {label:'Covert',name:'The Faithful',desc:'Devotes life to a false sense of safety through obedience and compliance.'}
     ]},
-  { id:7, arc:'Arc 7 — Attention', name:'Hungry Shapeshifter', theme:'Seeking uniqueness by consuming others', type:'anchor',
+  { id:7, arc:'Arc 7 — Attention', name:'Hungry Shapeshifter', theme:'Seeking uniqueness by fragmenting authenticity', type:'anchor',
     strategy:'Become whatever is needed to hold attention, consuming identities and personas to stay relevant.',
     belief:'If I have people\'s attention, I am loved.',
     dialogue:'"I\'ll become whatever you want — just don\'t ignore me."',
@@ -369,9 +369,9 @@ const archetypes = [
       {label:'Wounded Child',name:'The Defensive',desc:'Overwhelms others with argument to protect an unguarded self.'},
       {label:'Covert',name:'The Entertainer',desc:'Diverts attention from serious matters through humor and performance.'}
     ]},
-  { id:8, arc:'Arc 8 — Vision', name:'Righteous Bully', theme:'Purpose as punishment', type:'drift',
+  { id:8, arc:'Arc 8 — Vision', name:'Righteous Bully', theme:'Single-minded morally authoritative \"leadership\"', type:'drift',
     strategy:'The individual view of the world must be adhered to, and those who deviate must be corrected.',
-    belief:'I only protect those who follow my ideology.',
+    belief:'My view of how things should be done is infallible.',
     dialogue:'"If you\'re not on my side, you\'re the enemy."',
     truth:'No justification of righteousness is worth harming another.',
     subtypes:[
@@ -379,7 +379,7 @@ const archetypes = [
       {label:'Wounded Child',name:'The Pathogen',desc:'Takes the blame for everything as a covert form of control.'},
       {label:'Covert',name:'The Sacrificial',desc:'Self-immolation as a way to influence outcomes when direct control fails.'}
     ]},
-  { id:9, arc:'Arc 9 — Creation', name:'Invisible Destroyer', theme:'Destruction as a vice', type:'anchor',
+  { id:9, arc:'Arc 9 — Creation', name:'Invisible Destroyer', theme:'Disengagement as protest and overwhelm', type:'anchor',
     strategy:'Destroy memory, flow, luck, imagination, and completion before they can be taken away or proven insufficient.',
     belief:'Everything I touch turns to dust.',
     dialogue:'"If I can\'t build something perfect, I\'ll destroy everything before anyone else can."',
