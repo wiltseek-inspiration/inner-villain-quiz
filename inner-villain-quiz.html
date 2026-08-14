@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Inner Villain Quiz — Legend Academy</title>
+<!-- Favicon: same physalis mark used inline below (#physalis), re-encoded as a
+     self-contained SVG data URI so no separate image file has to be hosted
+     alongside this single-file page. -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20120'%3E%3Cg%20fill='none'%20stroke='%23d69528'%20stroke-width='1.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M50%2020%20C50%2013%2049%208%2045%204'/%3E%3Cpath%20d='M50%2020%20C31%2023%2019%2041%2019%2059%20C19%2078%2037%2095%2050%20101%20C63%2095%2081%2078%2081%2059%20C81%2041%2069%2023%2050%2020%20Z'/%3E%3Cpath%20d='M50%2020%20C40%2044%2040%2076%2050%20101'/%3E%3Cpath%20d='M50%2020%20C60%2044%2060%2076%2050%20101'/%3E%3Cpath%20d='M50%2020%20C28%2046%2026%2074%2050%20101'/%3E%3Cpath%20d='M50%2020%20C72%2046%2074%2074%2050%20101'/%3E%3C/g%3E%3Ccircle%20cx='50'%20cy='62'%20r='12'%20fill='%23e15a2a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root{
+  --blanc:#ffffff; --veil:#efefef; --midnight:#213347; --gild:#d69528;
+  --blush:#e3a39c; --mistwing:#7590b2; --physalis:#e15a2a; --kurenai:#cb1b45;
+  --bg:#f4f2ee; --surface:#ffffff;
+  --text:#213347; --text2:#52606f; --text3:#8a98aa;
+  --line:rgba(33,51,71,0.12); --line2:rgba(33,51,71,0.24);
+  --gild-tint:#fbf3e3; --gild-line:#ecd3a4; --gild-ink:#9a6a1c;
+  --mist-tint:#eef2f8; --mist-line:#c8d4e6;
+  --radius:16px; --radius-sm:10px; --pad:28px;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --hero:linear-gradient(180deg,#1c2c3e 0%,#28415a 48%,#6f8aad 100%);
+}
+body{ background:var(--bg); color:var(--text); font-family:var(--sans); min-height:100vh; display:flex; align-items:flex-start; justify-content:center; padding:2.25rem 1rem 4rem; -webkit-font-smoothing:antialiased; }
+.wrap{ width:100%; max-width:640px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:0 1px 2px rgba(33,51,71,.05),0 22px 60px rgba(33,51,71,.12); }
+.screen{ display:none; padding:var(--pad); }
+.screen.active{ display:block; }
+
+/* Brand mark + lockups */
+.mark{ width:46px; height:55px; display:block; margin:0 auto; }
+.mark-sm{ width:34px; height:41px; }
+.mark-xs{ width:22px; height:26px; margin:0; }
+.wordmark{ font-family:var(--serif); font-weight:500; letter-spacing:.22em; font-size:26px; color:var(--gild); margin-top:12px; }
+.wordmark-sm{ font-family:var(--serif); font-weight:500; letter-spacing:.2em; font-size:14px; }
+.tagline{ font-family:var(--serif); font-style:italic; font-size:15px; color:var(--blush); margin-top:4px; }
+.brand-hero{ margin:calc(-1*var(--pad)) calc(-1*var(--pad)) 26px; padding:38px var(--pad) 32px; background:var(--hero); text-align:center; }
+.brand-hero .wordmark{ color:#e9c585; }
+.brand-hero .tagline{ color:#e3a39c; }
+.mini-brand{ margin:calc(-1*var(--pad)) calc(-1*var(--pad)) 22px; padding:13px var(--pad); background:var(--hero); display:flex; align-items:center; justify-content:center; gap:9px; }
+.mini-brand .wordmark-sm{ color:#e9c585; }
+
+/* Intro */
+.intro-eyebrow{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--text3); margin-bottom:.7rem; }
+.intro-title{ font-family:var(--serif); font-size:40px; font-weight:600; line-height:1.08; color:var(--midnight); margin-bottom:1rem; }
+.intro-body{ font-size:15px; line-height:1.75; color:var(--text2); margin-bottom:1.75rem; }
+.intro-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:1.75rem; }
+.stat-card{ background:var(--bg); border:1px solid var(--line); border-radius:var(--radius-sm); padding:16px 10px; text-align:center; }
+.stat-n{ font-family:var(--serif); font-size:26px; font-weight:600; color:var(--midnight); line-height:1; }
+.stat-l{ font-size:11px; color:var(--text3); margin-top:5px; }
+
+/* Context picker */
+.ctx-label{ font-size:15px; font-weight:600; color:var(--midnight); margin-bottom:.5rem; line-height:1.4; }
+.ctx-hint{ font-size:13px; color:var(--text3); line-height:1.6; margin-bottom:1.1rem; }
+.ctx-options{ display:flex; flex-direction:column; gap:8px; margin-bottom:1.5rem; }
+.ctx-opt{ display:flex; align-items:center; gap:12px; padding:14px 16px; border:1px solid var(--line); border-radius:var(--radius-sm); cursor:pointer; font-size:14px; color:var(--text2); background:var(--surface); text-align:left; width:100%; font-family:inherit; transition:all .12s; }
+.ctx-opt:hover{ border-color:var(--gild-line); background:var(--gild-tint); }
+.ctx-opt.selected{ border-color:var(--gild); background:var(--gild-tint); color:var(--gild-ink); }
+.ctx-emoji{ font-size:16px; }
+
+/* Context badge */
+.ctx-badge{ display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; padding:5px 13px; border-radius:20px; background:var(--gild-tint); color:var(--gild-ink); border:1px solid var(--gild-line); margin-bottom:1rem; }
+.ctx-badge-dot{ width:6px; height:6px; border-radius:50%; background:var(--gild); flex-shrink:0; }
+.ctx-badge.on-dark{ background:rgba(255,255,255,.14); color:#f3e7cf; border-color:rgba(233,197,133,.4); }
+.ctx-badge.on-dark .ctx-badge-dot{ background:#e9c585; }
+
+/* Progress */
+.progress-wrap{ margin-bottom:1.25rem; }
+.progress-meta{ display:flex; justify-content:space-between; font-size:12px; color:var(--text3); margin-bottom:7px; }
+.progress-track{ height:4px; background:var(--veil); border-radius:2px; }
+.progress-fill{ height:4px; border-radius:2px; background:var(--gild); transition:width .35s ease; }
+.phase-badge{ display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:500; padding:5px 11px; border-radius:20px; margin-bottom:.85rem; }
+.phase-badge.neutral{ background:var(--veil); color:var(--text2); border:1px solid var(--line); }
+.phase-badge.anchor{ background:var(--gild-tint); color:var(--gild-ink); border:1px solid var(--gild-line); }
+.phase-badge.drift{ background:var(--mist-tint); color:#3f5a7a; border:1px solid var(--mist-line); }
+.phase-dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+
+/* Signal */
+.signal-bar{ display:flex; gap:10px; margin-bottom:1.25rem; align-items:center; }
+.signal-label{ font-size:11px; color:var(--text3); min-width:96px; }
+.signal-track{ flex:1; height:5px; background:var(--veil); border-radius:3px; position:relative; overflow:hidden; }
+.signal-anchor{ position:absolute; left:0; top:0; height:100%; background:var(--gild); border-radius:3px; transition:width .4s ease; }
+.signal-drift{ position:absolute; right:0; top:0; height:100%; background:var(--mistwing); border-radius:3px; transition:width .4s ease; }
+
+/* Question */
+.q-text{ font-family:var(--serif); font-size:24px; font-weight:600; line-height:1.3; color:var(--midnight); margin-bottom:.4rem; }
+.q-hint{ font-size:12px; color:var(--text3); margin-bottom:.4rem; }
+.sel-count{ font-size:12px; color:var(--gild-ink); margin-bottom:1.1rem; font-weight:500; }
+.options{ display:flex; flex-direction:column; gap:8px; margin-bottom:1.5rem; }
+.opt{ display:flex; align-items:flex-start; gap:12px; padding:13px 15px; border:1px solid var(--line); border-radius:var(--radius-sm); cursor:pointer; font-size:14px; line-height:1.5; color:var(--text2); background:var(--surface); text-align:left; width:100%; font-family:inherit; transition:all .12s; }
+.opt:hover{ border-color:var(--line2); background:var(--bg); }
+.opt.sel-1{ border-color:var(--midnight); background:var(--midnight); color:#fff; }
+.opt.sel-2{ border-color:var(--gild); background:var(--gild); color:#3a2a08; }
+.opt.sel-3{ border-color:var(--blush); background:var(--blush); color:#5a2f2a; }
+.sel-badge{ width:21px; height:21px; min-width:21px; border-radius:50%; border:1.5px solid currentColor; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; opacity:.5; flex-shrink:0; margin-top:1px; }
+.opt.sel-1 .sel-badge{ opacity:1; background:rgba(255,255,255,.22); border-color:#fff; color:#fff; }
+.opt.sel-2 .sel-badge,.opt.sel-3 .sel-badge{ opacity:1; background:rgba(33,51,71,.16); border-color:currentColor; color:inherit; }
+
+/* Nav + buttons */
+.nav{ display:flex; justify-content:space-between; align-items:center; }
+.btn{ padding:11px 24px; border-radius:var(--radius-sm); border:1px solid var(--line2); background:var(--surface); font-size:14px; color:var(--midnight); cursor:pointer; font-family:inherit; font-weight:500; transition:all .12s; }
+.btn:hover{ background:var(--bg); }
+.btn.primary{ background:var(--midnight); color:#fff; border-color:var(--midnight); }
+.btn.primary:hover{ background:#2c4358; }
+.btn:disabled{ opacity:.3; cursor:not-allowed; }
+.btn.full{ width:100%; text-align:center; padding:14px; margin-top:.5rem; }
+.text-btn{ background:none; border:none; font-size:12px; color:var(--text3); cursor:pointer; font-family:inherit; text-decoration:underline; }
+
+/* Result */
+.result-hero{ margin:calc(-1*var(--pad)) calc(-1*var(--pad)) 24px; padding:30px var(--pad) 30px; background:var(--hero); text-align:center; color:#fff; }
+.result-hero .mark-sm{ margin:0 auto 12px; }
+.result-hero .ctx-badge{ margin-bottom:14px; }
+.result-eyebrow{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#cdb88e; margin-bottom:8px; }
+.result-name{ font-family:var(--serif); font-size:42px; font-weight:600; color:#fff; line-height:1.05; margin-bottom:8px; }
+.result-arc{ font-family:var(--serif); font-style:italic; font-size:17px; color:#e3a39c; }
+.result-label{ font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gild-ink); margin-bottom:6px; }
+.result-body{ font-size:14px; line-height:1.75; color:var(--text); margin-bottom:1.3rem; }
+.truth-banner{ font-family:var(--serif); font-size:19px; font-style:italic; line-height:1.5; color:var(--midnight); padding:4px 0 4px 18px; border-left:3px solid var(--gild); margin-bottom:1.3rem; }
+.divider{ height:1px; background:var(--line); margin:1.4rem 0; }
+.arc-breakdown{ margin-bottom:1.5rem; }
+.arc-row{ display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+.arc-name{ font-size:12px; color:var(--text2); min-width:150px; }
+.arc-track{ flex:1; height:7px; background:var(--veil); border-radius:4px; overflow:hidden; }
+.arc-fill{ height:100%; border-radius:4px; background:var(--mistwing); opacity:.5; }
+.arc-fill.win{ background:var(--gild); opacity:1; }
+.arc-pct{ font-size:12px; color:var(--text3); min-width:34px; text-align:right; }
+
+/* Choose your field guide (all nine, computed winner highlighted) */
+.choose-section{ margin-top:1.5rem; }
+.universe-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:1rem; }
+.universe-btn{ position:relative; display:flex; flex-direction:column; gap:2px; padding:12px 14px; border:1px solid var(--line2); border-radius:var(--radius-sm); background:var(--surface); text-decoration:none; transition:all .12s; }
+.universe-btn:hover{ border-color:var(--gild); background:var(--gild-tint); }
+.universe-btn.winner{ border-color:var(--gild); background:var(--gild-tint); }
+.universe-arc{ font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--text3); }
+.universe-name{ font-family:var(--serif); font-size:15px; font-weight:600; color:var(--midnight); }
+.universe-tag{ position:absolute; top:-8px; right:10px; font-size:9px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; background:var(--gild); color:#3a2a08; padding:2px 8px; border-radius:10px; }
+.universe-btn.claimed{ opacity:.72; }
+.universe-status{ font-size:10px; color:var(--text3); margin-top:1px; }
+@media (max-width:480px){ .universe-grid{ grid-template-columns:1fr; } }
+
+/* Legend cross-link */
+.legend-link{ margin-top:1.5rem; padding:1.4rem 1.5rem; border:1px solid var(--mist-line); border-radius:var(--radius); background:var(--mist-tint); }
+.legend-label{ font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#3f5a7a; margin-bottom:7px; }
+.legend-body{ font-size:13px; line-height:1.7; color:var(--text2); margin-bottom:1rem; }
+.legend-cta{ display:inline-block; font-family:var(--serif); font-size:16px; font-weight:600; color:var(--midnight); text-decoration:none; border-bottom:2px solid var(--gild); padding-bottom:2px; }
+.legend-cta:hover{ color:var(--gild-ink); }
+
+/* Retake */
+.retake-section{ margin-top:1.5rem; padding-top:1.3rem; border-top:1px solid var(--line); }
+.retake-title{ font-family:var(--serif); font-size:18px; font-weight:600; color:var(--midnight); margin-bottom:.85rem; }
+.retake-pills{ display:flex; flex-wrap:wrap; gap:8px; }
+.retake-pill{ padding:8px 15px; border-radius:20px; border:1px solid var(--line2); font-size:13px; color:var(--text2); background:var(--surface); cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:6px; transition:all .12s; }
+.retake-pill:hover{ border-color:var(--gild); color:var(--gild-ink); background:var(--gild-tint); }
+.retake-pill.done{ opacity:.45; text-decoration:line-through; cursor:default; }
+
+@media (max-width:480px){
+  .screen{ padding:20px; }
+  .brand-hero,.mini-brand,.result-hero{ margin-left:-20px; margin-right:-20px; }
+  .intro-title{ font-size:32px; }
+  .result-name{ font-size:34px; }
+  .q-text{ font-size:21px; }
+  .intro-stats{ grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="physalis" viewBox="0 0 100 120">
+  <g fill="none" stroke="#d69528" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 20 C50 13 49 8 45 4"/>
+    <path d="M50 20 C31 23 19 41 19 59 C19 78 37 95 50 101 C63 95 81 78 81 59 C81 41 69 23 50 20 Z"/>
+    <path d="M50 20 C40 44 40 76 50 101"/>
+    <path d="M50 20 C60 44 60 76 50 101"/>
+    <path d="M50 20 C28 46 26 74 50 101"/>
+    <path d="M50 20 C72 46 74 74 50 101"/>
+  </g>
+  <circle cx="50" cy="62" r="12" fill="#e15a2a"/>
+</symbol></svg>
+<div class="wrap">
+
+<!-- INTRO + CONTEXT PICKER -->
+<div class="screen active" id="screen-intro">
+  <div class="brand-hero">
+    <svg class="mark" viewBox="0 0 100 120" aria-hidden="true"><use href="#physalis"/></svg>
+    <div class="wordmark">INNER VILLAIN ORACLE</div>
+    <div class="tagline">become embodied wisdom</div>
+  </div>
+  <div class="intro-eyebrow">The Inner Villain Quiz</div>
+  <div class="intro-title">Discover who is your Inner Villain?</div>
+  <div class="intro-body">Your Inner Villain is not a flaw. It is a role within a story you decided on a long time ago, one that runs your decisions, your relationships, and your work from the background. This quiz exists to find that story: the pattern you most often express, and the one you're quickest to recognize in someone else. It adapts as you go, narrowing toward whichever of the nine fits you most. Select up to three responses per question, in the order they resonate.</div>
+  <div class="intro-stats">
+    <div class="stat-card"><div class="stat-n">9</div><div class="stat-l">archetypes</div></div>
+    <div class="stat-card"><div class="stat-n">~5 min</div><div class="stat-l">to complete</div></div>
+    <div class="stat-card"><div class="stat-n">4</div><div class="stat-l">contexts</div></div>
+  </div>
+  <div class="ctx-label">First, choose the context you want to explore:</div>
+  <div class="ctx-hint">Your villain shows up differently depending on where you are. Pick one to start, and you can explore the others after. Results are saved in your browser.</div>
+  <div class="ctx-options" id="ctx-options"></div>
+  <button class="btn primary full" id="btn-begin" onclick="startQuiz()" disabled>Begin the quiz</button>
+  <div style="text-align:center;margin-top:1rem"><button onclick="clearCompleted()" class="text-btn">Clear saved results</button></div>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="screen-quiz">
+  <div class="mini-brand"><svg class="mark mark-xs" viewBox="0 0 100 120" aria-hidden="true"><use href="#physalis"/></svg><span class="wordmark-sm">LEGEND ACADEMY</span></div>
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="q-counter">Question 1</span>
+      <span id="phase-label">Opening</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+  </div>
+  <div id="ctx-badge" class="ctx-badge"><div class="ctx-badge-dot"></div><span id="ctx-badge-text"></span></div>
+  <div id="phase-badge" class="phase-badge neutral"><div class="phase-dot"></div><span id="phase-text">Finding your pattern</span></div>
+  <div id="signal-bar" class="signal-bar" style="display:none">
+    <div class="signal-label" id="sig-label">Pattern focus</div>
+    <div class="signal-track">
+      <div class="signal-anchor" id="sig-anchor" style="width:50%"></div>
+      <div class="signal-drift"  id="sig-drift"  style="width:50%"></div>
+    </div>
+  </div>
+  <div class="q-text" id="q-text"></div>
+  <div class="q-hint">Select up to 3 — first = strongest.</div>
+  <div class="sel-count" id="sel-count">0 of 3 selected</div>
+  <div class="options" id="options"></div>
+  <div class="nav">
+    <button class="btn" id="btn-back" onclick="goBack()" disabled>Back</button>
+    <button class="btn primary" id="btn-next" onclick="goNext()" disabled>Next</button>
+  </div>
+</div>
+
+<!-- (subtype refinement removed) -->
+
+<!-- RESULT -->
+<div class="screen" id="screen-result">
+  <div class="result-hero">
+    <svg class="mark mark-sm" viewBox="0 0 100 120" aria-hidden="true"><use href="#physalis"/></svg>
+    <div id="r-ctx-badge" class="ctx-badge on-dark"><div class="ctx-badge-dot"></div><span id="r-ctx-text"></span></div>
+    <div class="result-eyebrow" id="r-eyebrow"></div>
+    <div class="result-name" id="r-name"></div>
+    <div class="result-arc" id="r-arc"></div>
+  </div>
+
+  <div class="result-label">Your pattern</div>
+  <div class="result-body" id="r-strategy"></div>
+  <div class="result-label">The core belief driving it</div>
+  <div class="result-body" id="r-belief"></div>
+  <div class="result-label">What you tell yourself</div>
+  <div class="result-body" id="r-dialogue"></div>
+  <div class="result-label">The great truth</div>
+  <div class="truth-banner" id="r-truth"></div>
+
+  <div class="divider"></div>
+  <div class="result-label">Where this arc sits among your patterns</div>
+  <div class="arc-breakdown" id="r-breakdown"></div>
+
+  <div class="choose-section">
+    <div class="result-label" id="choose-title">Choose your field guide</div>
+    <div class="result-body" id="choose-body"></div>
+    <div class="universe-grid" id="universe-grid"></div>
+  </div>
+
+  <div class="legend-link" id="legend-link" style="display:none"></div>
+
+  <div class="retake-section">
+    <div class="retake-title">See how your villain shifts in another context</div>
+    <div class="retake-pills" id="retake-pills"></div>
+  </div>
+</div>
+
+</div>
+<script>
+// ─── CONTEXTS ───────────────────────────────────────────────────────────────
+const CONTEXTS = [
+  { id:'work',    label:'At work or in my business',    emoji:'💼',
+    badge:'At work',
+    qPhrase:'at work or in your business',
+    relationPhrase:'with a colleague, client, or collaborator',
+    lowPhrase:'your work or business is struggling' },
+  { id:'close',   label:'In close relationships',       emoji:'🤝',
+    badge:'In close relationships',
+    qPhrase:'in your close relationships',
+    relationPhrase:'with a partner, close friend, or family member',
+    lowPhrase:'a close relationship feels strained or disconnected' },
+  { id:'parent',  label:'As a parent',                  emoji:'🌱',
+    badge:'As a parent',
+    qPhrase:'in your role as a parent',
+    relationPhrase:'with your child or children',
+    lowPhrase:'parenting feels heavy or you feel like you\'re failing' },
+  { id:'stress',  label:'When I am under stress',       emoji:'⚡',
+    badge:'Under stress',
+    qPhrase:'when you are under stress',
+    relationPhrase:'with someone when you are under pressure',
+    lowPhrase:'everything feels like too much' }
+];
+
+// ─── ARCHETYPES ──────────────────────────────────────────────────────────────
+const archetypes = [
+  { id:1, arc:'Arc 1 — Belonging', name:'Obedient Critic', theme:'Belonging to your role', type:'anchor',
+    strategy:'Destroy the morale and sense of self of anyone who doesn\'t follow the rules you have internalized as correct.',
+    belief:'Order controls chaos and pain.',
+    dialogue:'"You should be ashamed and humiliated that you didn\'t do this right."',
+    truth:'No rule holds absolute power where kindness is present.',
+    subtypes:[
+      {label:'Successful Antagonist',name:'The Perfectionist',desc:'Nothing is worth doing unless it\'s done right. Holds others and self to an impossible standard.'},
+      {label:'Wounded Child',name:'The Imposter',desc:'Humbles itself before it can be humbled. Earns its seat over and over.'},
+      {label:'Covert',name:'The Pleaser',desc:'Makes everyone comfortable as a strategy to prevent loss of belonging.'}
+    ]},
+  { id:2, arc:'Arc 2 — Energy', name:'Vengeful Martyr', theme:'Energy weaponized', type:'drift',
+    strategy:'Destroy the bridges to others that you\'ve sacrificed to build, when the debt goes unpaid.',
+    belief:'Martyrdom is the key to passive control.',
+    dialogue:'"I deserve my happy ending. If I\'m not given it, I will take my sacrifice back."',
+    truth:'Scarcity with wisdom becomes boundaries.',
+    subtypes:[
+      {label:'Successful Antagonist',name:'The Banker',desc:'Creates tasks to accumulate relational debt. Gives to collect.'},
+      {label:'Wounded Child',name:'The Abandoned',desc:'Leaves itself first so it cannot be left.'},
+      {label:'Covert',name:'The Apologetic',desc:'Only rests when there\'s nothing left to be done — which is never.'}
+    ]},
+  { id:3, arc:'Arc 3 — Resources', name:'Vain Controller', theme:'Hoarding resources', type:'anchor',
+    strategy:'Deny others resources in order to gain control over them.',
+    belief:'There aren\'t enough resources to go around. I must fight for mine.',
+    dialogue:'"If I lose control, everything falls apart."',
+    truth:'What\'s truly for you doesn\'t require control.',
+    subtypes:[
+      {label:'Successful Antagonist',name:'The Influencer',desc:'Maintains control through managing the narrative and appearances.'},
+      {label:'Wounded Child',name:'The Envious',desc:'Acquires ambition to manipulate access to what others have.'},
+      {label:'Covert',name:'The Compliant',desc:'Appears meek and harmless to avoid losing access to resources.'}
+    ]},
+  { id:4, arc:'Arc 4 — Growth', name:'Eternal Child', theme:'Vindictive individuation', type:'drift',
+    strategy:'Isolate and capture others so they only answer to you, refusing the maturation that responsibility requires.',
+    belief:'I will live in my fantasy rather than face what growing up requires.',
+    dialogue:'"Don\'t tell me what to do. I\'ll live in my fantasy forever."',
+    truth:'Youth holds freedom that corrupts when it does not mature.',
+    subtypes:[
+      {label:'Successful Antagonist',name:'The Entitled',desc:'Blind to the sacrifice of others maintaining their comfort.'},
+      {label:'Wounded Child',name:'The Liar',desc:'Disappears into oneself when emotionally adrift and forgotten.'},
+      {label:'Covert',name:'The Romantic',desc:'Falls quickly into love with someone who will take care of them.'}
+    ]},
+  { id:5, arc:'Arc 5 — Balance', name:'Evasive Expert', theme:'Imbalance of good and evil', type:'anchor',
+    strategy:'Create a dark passenger — a destructive outlet kept hidden while maintaining a composed, capable exterior.',
+    belief:'My darkness is dangerous and must be kept entirely separate.',
+    dialogue:'"If I stay in my head, no one can hurt me."',
+    truth:'There is no hiding feelings. Your shadow will be expressed whether you choose it or not.',
+    subtypes:[
+      {label:'Successful Antagonist',name:'The Overthinker',desc:'Deep research and thinking deployed as armor against feeling.'},
+      {label:'Wounded Child',name:'The Sensitive',desc:'Perceives everything as self-originating. Feels everything too much.'},
+      {label:'Covert',name:'The Compartmentalizer',desc:'Shuts out emotion by diving into the practical and productive.'}
+    ]},
+  { id:6, arc:'Arc 6 — Change', name:'Divisive Immortal', theme:'Change as the enemy', type:'drift',
+    strategy:'Seek to isolate others in an effort to keep them — and yourself — safe from any change.',
+    belief:'Anything is worth sacrificing for safety.',
+    dialogue:'"If I control everything, I\'ll never get hurt again."',
+    truth:'Living fully is worth the risk of pain.',
+    subtypes:[
+      {label:'Successful Antagonist',name:'The Catastrophist',desc:'Avoidance of risk that ends up attracting the very risks avoided.'},
+      {label:'Wounded Child',name:'The Outcast',desc:'The world is out to get me, so there\'s no point trying.'},
+      {label:'Covert',name:'The Faithful',desc:'Devotes life to a false sense of safety through obedience and compliance.'}
+    ]},
+  { id:7, arc:'Arc 7 — Attention', name:'Hungry Shapeshifter', theme:'Seeking uniqueness by consuming others', type:'anchor',
+    strategy:'Become whatever is needed to hold attention, consuming identities and personas to stay relevant.',
+    belief:'If I have people\'s attention, I am loved.',
+    dialogue:'"I\'ll become whatever you want — just don\'t ignore me."',
+    truth:'Satiation exists only in the present moment.',
+    subtypes:[
+      {label:'Successful Antagonist',name:'The Thief',desc:'Plagiarism as a path to the identity they want but haven\'t built.'},
+      {label:'Wounded Child',name:'The Defensive',desc:'Overwhelms others with argument to protect an unguarded self.'},
+      {label:'Covert',name:'The Entertainer',desc:'Diverts attention from serious matters through humor and performance.'}
+    ]},
+  { id:8, arc:'Arc 8 — Vision', name:'Righteous Bully', theme:'Purpose as punishment', type:'drift',
+    strategy:'The individual view of the world must be adhered to, and those who deviate must be corrected.',
+    belief:'I only protect those who follow my ideology.',
+    dialogue:'"If you\'re not on my side, you\'re the enemy."',
+    truth:'No justification of righteousness is worth harming another.',
+    subtypes:[
+      {label:'Successful Antagonist',name:'The Fixer',desc:'Does everyone\'s thinking for them, uninvited and certain of their rightness.'},
+      {label:'Wounded Child',name:'The Pathogen',desc:'Takes the blame for everything as a covert form of control.'},
+      {label:'Covert',name:'The Sacrificial',desc:'Self-immolation as a way to influence outcomes when direct control fails.'}
+    ]},
+  { id:9, arc:'Arc 9 — Creation', name:'Invisible Destroyer', theme:'Destruction as a vice', type:'anchor',
+    strategy:'Destroy memory, flow, luck, imagination, and completion before they can be taken away or proven insufficient.',
+    belief:'Everything I touch turns to dust.',
+    dialogue:'"If I can\'t build something perfect, I\'ll destroy everything before anyone else can."',
+    truth:'Imagination and inspiration unused is inverted into self-destruction.',
+    subtypes:[
+      {label:'Successful Antagonist',name:'The Questioner',desc:'Questioning as a permanent delay to action disguised as discernment.'},
+      {label:'Wounded Child',name:'The Overwhelmed',desc:'Life is too much — so nothing begins and nothing completes.'},
+      {label:'Covert',name:'The Addict',desc:'Fixates on what provides relief as an escape from full embodiment.'}
+    ]}
+];
+
+// ─── COMPLIMENTARY FIELD GUIDES (per arc) ────────────────────────
+// Replace '#' with the hosted PDF / LearnWorlds URL for each arc's freebie.
+// ─── PER-ARCHETYPE KIT LANDING PAGES ─────────────────────────────────────
+// Each of these is a live, hosted Kit opt-in form. Submitting one hands the
+// PDF over immediately on email confirmation — there is no tag-based gate on
+// the PDF itself. The "first one free, rest at a discount through the Legend
+// Academy" policy is communicated honestly in the copy below and enforced by
+// Kit's own follow-up sequence per archetype, not by anything on this page.
+const UNIVERSE_URLS = {
+  1:'https://kristina-wiltsee-letters-from-the-center.kit.com/e89a51e1f3',
+  2:'https://kristina-wiltsee-letters-from-the-center.kit.com/fb16196cc0',
+  3:'https://kristina-wiltsee-letters-from-the-center.kit.com/cf594babf5',
+  4:'https://kristina-wiltsee-letters-from-the-center.kit.com/d2deff836e',
+  5:'https://kristina-wiltsee-letters-from-the-center.kit.com/d70a2df6e1',
+  6:'https://kristina-wiltsee-letters-from-the-center.kit.com/6923d29f47',
+  7:'https://kristina-wiltsee-letters-from-the-center.kit.com/d426e56f01',
+  8:'https://kristina-wiltsee-letters-from-the-center.kit.com/6ceebf8765',
+  9:'https://kristina-wiltsee-letters-from-the-center.kit.com/ad63c44f45'
+};
+
+// ─── PAIRED LEGEND (forward-facing skill per arc) ───────────────────
+const LEGENDS = {1:'The Equalizer',2:'The Nourisher',3:'The Inventor',4:'The Traveller',5:'The Integrator',6:'The Healer',7:'The Fabricator',8:'The Channeler',9:'The Architect'};
+// Set this to the Legend quiz URL to show the cross-link, or leave '' to hide it.
+const LEGEND_QUIZ_URL = '';
+
+// ─── QUESTIONS ───────────────────────────────────────────────────────────────
+// {CTX_PHRASE} → context.qPhrase, {REL_PHRASE} → context.relationPhrase, {LOW_PHRASE} → context.lowPhrase
+// ctxText: optional per-context override for answer text. Falls back to .text if no override.
+const phase1Questions = [
+  { text:"When you make a mistake {CTX_PHRASE}, your first instinct is:",
+    opts:[
+      {text:"Point out where the process or standard failed",arcs:{1:3},
+        ctxText:{
+          work:"Send a follow-up clarifying exactly where the process broke down",
+          close:"Go over what was said and trace exactly where it went wrong",
+          parent:"Review what you should have done and run it again mentally",
+          stress:"Lock onto the external cause so the fault lands somewhere else"}},
+      {text:"Track how much you'd already given and whether it was worth it",arcs:{2:3},
+        ctxText:{
+          work:"Quietly calculate how much effort you put in relative to the outcome",
+          close:"Replay how much you've sacrificed and whether this is your return",
+          parent:"Think about how much you've given and whether any of it is landing",
+          stress:"Feel the unfairness of it — all that effort and still this"}},
+      {text:"Worry about how it affects your reputation or access",arcs:{3:3},
+        ctxText:{
+          work:"Wonder who saw it and how quickly you can correct the narrative",
+          close:"Monitor whether their opinion of you just shifted",
+          parent:"Worry your child will lose trust in you",
+          stress:"Manage how it looks before you've even processed what happened"}},
+      {text:"Quietly wonder if this confirms you were never ready",arcs:{4:3},
+        ctxText:{
+          work:"Feel a familiar sinking thought that you were out of your depth all along",
+          close:"Wonder if this is proof you're not as good at this as they assumed",
+          parent:"Worry this is what bad parenting looks like",
+          stress:"Let the mistake become evidence of everything else that's already wrong"}},
+      {text:"Retreat into analysis until the feeling passes",arcs:{5:3},
+        ctxText:{
+          work:"Break down every variable until the emotional sting is gone",
+          close:"Go quiet and think it through alone before you can talk about it",
+          parent:"Research the right response before saying anything",
+          stress:"Intellectualize the situation until you're no longer inside it"}},
+      {text:"Convince yourself something worse is coming",arcs:{6:3},
+        ctxText:{
+          work:"Assume this is the beginning of a larger collapse",
+          close:"Brace for the fallout even before it arrives",
+          parent:"Fear this mistake will have consequences you can't yet see",
+          stress:"Read the mistake as a signal that the whole thing is unraveling"}},
+      {text:"Perform competence harder to recover the room",arcs:{7:3},
+        ctxText:{
+          work:"Overcorrect immediately — more energy, more visibility, more output",
+          close:"Pivot to charming or funny so the mistake stops defining the moment",
+          parent:"Quickly demonstrate you know what you're doing",
+          stress:"Put on the capable face and push harder so no one notices"}},
+      {text:"Immediately look for who or what is responsible",arcs:{8:3},
+        ctxText:{
+          work:"Identify the gap in someone else's work that led to this",
+          close:"Name what the other person did that contributed",
+          parent:"Figure out which factor — environment, schedule, someone's behavior — caused it",
+          stress:"Establish quickly that the conditions were unreasonable"}},
+      {text:"Feel a wave of 'why bother' that makes you want to scrap everything",arcs:{9:3},
+        ctxText:{
+          work:"Wonder if the whole project was misguided from the start",
+          close:"Feel the urge to withdraw rather than repair",
+          parent:"Question whether you have any idea what you're doing",
+          stress:"Lose access to why any of this mattered in the first place"}}
+    ]},
+  { text:"{REL_PHRASE}, the thought you most often leave unsaid is:",
+    opts:[
+      {text:"'You're not doing this right and I'm tired of watching it'",arcs:{1:3},
+        ctxText:{
+          work:"'The standard is obvious. Why does it keep not getting met'",
+          close:"'I can see exactly what's going wrong and I keep not saying it'",
+          parent:"'I've shown you this. Why do I have to show you again'",
+          stress:"'The bar isn't high. I'm just the only one holding it'"}},
+      {text:"'After everything I've done, this is what I get'",arcs:{2:3},
+        ctxText:{
+          work:"'I've covered for this situation more times than I can count'",
+          close:"'I have given so much to this and I'm watching it go unnoticed'",
+          parent:"'Everything I do is for them and I'm running on empty'",
+          stress:"'I kept going when everyone else stopped and this is the result'"}},
+      {text:"'If I lose their approval, I lose something I need'",arcs:{3:3},
+        ctxText:{
+          work:"'My position here depends on staying in the right light'",
+          close:"'I can feel when their opinion shifts and it destabilizes everything'",
+          parent:"'I need them to think I'm doing this well'",
+          stress:"'I can't afford to look like I'm struggling right now'"}},
+      {text:"'They'll eventually figure out I'm not what they think I am'",arcs:{4:3},
+        ctxText:{
+          work:"'At some point they'll realize they overestimated me'",
+          close:"'If they knew how uncertain I actually feel, they'd see me differently'",
+          parent:"'I don't actually know what I'm doing. I'm just doing it'",
+          stress:"'I'm holding it together and no one knows how thin that margin is'"}},
+      {text:"'I'd rather not talk about how I'm actually feeling'",arcs:{5:3},
+        ctxText:{
+          work:"'The work is what matters. The rest I'll manage privately'",
+          close:"'I know what I feel. I just don't want to put it into the room'",
+          parent:"'I don't want to pass this onto them'",
+          stress:"'I can deal with this on my own. Talking about it won't help'"}},
+      {text:"'Getting close always leads somewhere painful'",arcs:{6:3},
+        ctxText:{
+          work:"'Every time I've trusted a working relationship, something shifted'",
+          close:"'The closer we get, the more there is to lose'",
+          parent:"'Loving this much is terrifying'",
+          stress:"'When I'm already overwhelmed, connection feels like one more risk'"}},
+      {text:"'I need to be more interesting or they'll drift'",arcs:{7:3},
+        ctxText:{
+          work:"'My value here is tied to what I bring to the room'",
+          close:"'If I stop being the version of me they fell for, what's left'",
+          parent:"'I need to be engaging enough that they actually want to talk to me'",
+          stress:"'Even now, I'm monitoring whether I'm holding their attention'"}},
+      {text:"'I already know what they need better than they do'",arcs:{8:3},
+        ctxText:{
+          work:"'If they would just follow the approach I've laid out, this would be solved'",
+          close:"'I can see the answer. I'm waiting for them to catch up'",
+          parent:"'I know what's best for them even when they resist it'",
+          stress:"'Everyone is making this harder than it needs to be'"}},
+      {text:"'I want to be fully here but something keeps pulling me out'",arcs:{9:3},
+        ctxText:{
+          work:"'I show up but part of me is already somewhere else'",
+          close:"'I love this person and I still can't stay present with them'",
+          parent:"'They have my attention but not all of me and I feel guilty about it'",
+          stress:"'I can't locate myself. Everything is too loud'"}}
+    ]},
+  { text:"When someone succeeds at something you also wanted {CTX_PHRASE}, your honest reaction is:",
+    opts:[
+      {text:"Critique what they did wrong that nobody's saying",arcs:{1:3}},
+      {text:"Feel quietly betrayed — you worked harder and it went unnoticed",arcs:{2:3}},
+      {text:"Study what they have that you don't, and how to close the gap",arcs:{3:3}},
+      {text:"Shrink your own ambition to match what now feels realistic",arcs:{4:3}},
+      {text:"Intellectualize why it worked for them but might not work for you",arcs:{5:3}},
+      {text:"Tell yourself something will probably go wrong for them eventually",arcs:{6:3}},
+      {text:"Wonder if you should present yourself more like them",arcs:{7:3}},
+      {text:"Immediately spot the flaw in their approach they'll eventually hit",arcs:{8:3}},
+      {text:"Feel inspired briefly, then overwhelmed, then nothing",arcs:{9:3}}
+    ]},
+  { text:"The phrase that lands hardest when you're at your lowest {CTX_PHRASE}:",
+    opts:[
+      {text:"'Nothing is ever done well enough'",arcs:{1:3},
+        ctxText:{
+          work:"'The output still isn't right. It's never quite right'",
+          close:"'I keep falling short of the partner or friend I'm supposed to be'",
+          parent:"'I know what good parenting looks like and this isn't it'",
+          stress:"'Even in survival mode, I can't stop auditing myself'"}},
+      {text:"'No one sees how much I give'",arcs:{2:3},
+        ctxText:{
+          work:"'I carry more than my share and it disappears into the background'",
+          close:"'I do so much for this relationship and it goes unremarked'",
+          parent:"'The invisible labor of parenting just compounds and nobody counts it'",
+          stress:"'I'm keeping everything afloat and there's no acknowledgment of that'"}},
+      {text:"'I'm falling behind and I can't let them see it'",arcs:{3:3},
+        ctxText:{
+          work:"'Everyone else looks like they have it together. I'm managing appearances'",
+          close:"'I don't want them to know how uncertain I've been feeling'",
+          parent:"'Other parents seem to have a handle on this. I'm improvising'",
+          stress:"'I'm overwhelmed and still performing like I'm not'"}},
+      {text:"'I don't deserve to be here'",arcs:{4:3},
+        ctxText:{
+          work:"'I got here through luck or timing, not because I actually belong'",
+          close:"'Someone like them shouldn't have ended up with someone like me'",
+          parent:"'I wasn't ready for this and I don't know if I ever will be'",
+          stress:"'In the middle of all this, I'm the weakest link'"}},
+      {text:"'I just need more information before I can act'",arcs:{5:3},
+        ctxText:{
+          work:"'There's a better answer if I think about it long enough'",
+          close:"'I need to understand this fully before I can talk about it'",
+          parent:"'I need to research this more before I make a call'",
+          stress:"'I know there's a right move here. I just haven't found it yet'"}},
+      {text:"'Something is about to go very wrong'",arcs:{6:3},
+        ctxText:{
+          work:"'This project is too quiet. Something is about to surface'",
+          close:"'Things feel okay right now and that makes me nervous'",
+          parent:"'They seem fine. I'm still waiting for the other shoe'",
+          stress:"'Being stressed means I'm missing something that's about to land on me'"}},
+      {text:"'If I'm not interesting, I'm nothing'",arcs:{7:3},
+        ctxText:{
+          work:"'My worth here is my energy and ideas. Without that I'm replaceable'",
+          close:"'I need to be the most compelling version of myself or they'll stop seeing me'",
+          parent:"'I need my child to actually want to spend time with me'",
+          stress:"'Even under pressure I'm monitoring whether I'm holding anyone's attention'"}},
+      {text:"'Why won't anyone just listen to me'",arcs:{8:3},
+        ctxText:{
+          work:"'The solution is clear. I don't understand why it keeps getting ignored'",
+          close:"'I've said this before. I don't know how to say it so it lands'",
+          parent:"'I keep telling them and it goes nowhere'",
+          stress:"'I'm watching the right answer get passed over and it's infuriating'"}},
+      {text:"'I can't finish anything'",arcs:{9:3},
+        ctxText:{
+          work:"'I have thirty open tabs and zero completed projects'",
+          close:"'I keep starting conversations about this and never finishing them'",
+          parent:"'I want to be present for this and I keep abandoning the attempt'",
+          stress:"'Everything is half-done and the pile keeps growing'"}}
+    ]},
+  { text:"Your relationship with your own need for rest or support {CTX_PHRASE} is:",
+    opts:[
+      {text:"I push through — things fall apart or fall below standard if I slow down",arcs:{1:3,3:1}},
+      {text:"I wait to be offered it — asking feels like announcing failure",arcs:{2:3,4:1}},
+      {text:"I hide the need and maintain the appearance of being fine",arcs:{3:3,7:1}},
+      {text:"I don't feel I've earned it yet",arcs:{4:3,1:1}},
+      {text:"I research recovery strategies instead of actually recovering",arcs:{5:3,9:1}},
+      {text:"Rest feels unsafe — something bad might happen if I stop watching",arcs:{6:3,5:1}},
+      {text:"I keep going until someone notices and acknowledges how much I'm doing",arcs:{7:3,2:1}},
+      {text:"I help everyone else first and assume my needs can wait",arcs:{8:3,2:1}},
+      {text:"I collapse into complete shutdown rather than taking small breaks",arcs:{9:3,6:1}}
+    ]},
+  { text:"When {LOW_PHRASE}, you tend to:",
+    opts:[
+      {text:"Audit everything for what isn't meeting the standard",arcs:{1:3},
+        ctxText:{
+          work:"Go through every deliverable looking for what failed and why",
+          close:"Review every interaction for where you fell short",
+          parent:"Run through the last week looking for every mistake",
+          stress:"Tighten your standards further as a way of feeling in control"}},
+      {text:"Resent the effort that went unrecognized and unreciprocated",arcs:{2:3},
+        ctxText:{
+          work:"Feel the weight of everything you've contributed that went unremarked",
+          close:"Withdraw emotional energy from someone who hasn't matched yours",
+          parent:"Feel the deep loneliness of effort that no one can see or measure",
+          stress:"Carry the resentment quietly and let it color everything else"}},
+      {text:"Protect your image and manage how the struggle appears externally",arcs:{3:3},
+        ctxText:{
+          work:"Keep performing competence so no one sees how much you're managing",
+          close:"Maintain the version of yourself they believe in",
+          parent:"Appear in control of the situation even when you're not",
+          stress:"Keep it together on the outside regardless of what's happening inside"}},
+      {text:"Quietly wonder if you were ever cut out for this",arcs:{4:3},
+        ctxText:{
+          work:"Revisit whether this role was ever really yours to fill",
+          close:"Wonder if you're actually capable of the intimacy this relationship requires",
+          parent:"Question whether you were ready for this at all",
+          stress:"Let the struggle feel like confirmation of something you already feared"}},
+      {text:"Consume information and research until you find the right answer",arcs:{5:3},
+        ctxText:{
+          work:"Read everything, consult everyone, delay deciding until the picture is clearer",
+          close:"Try to understand the dynamic intellectually instead of engaging with it",
+          parent:"Research every framework and philosophy before trusting your instincts",
+          stress:"Go deep into problem-solving mode as a way to avoid feeling the weight of it"}},
+      {text:"Pull back from visibility to avoid making it worse",arcs:{6:3},
+        ctxText:{
+          work:"Go quieter in meetings, reduce exposure, wait for the storm to pass",
+          close:"Create distance to prevent the situation from getting worse",
+          parent:"Become more cautious and less spontaneous to avoid more disruption",
+          stress:"Retreat further because action feels like risk you can't afford right now"}},
+      {text:"Look for a new angle or pivot that will get attention again",arcs:{7:3},
+        ctxText:{
+          work:"Reframe the project or reposition yourself to re-enter the conversation",
+          close:"Find a new way to be interesting or needed",
+          parent:"Shift tactics to reconnect rather than examine what isn't working",
+          stress:"Reach for novelty to avoid sitting in the discomfort of what's failing"}},
+      {text:"Identify what's going wrong and double down on your own approach",arcs:{8:3},
+        ctxText:{
+          work:"Diagnose the problem and apply your solution harder",
+          close:"Name what the other person is doing and wait for them to adjust",
+          parent:"Enforce the structure or approach more firmly",
+          stress:"Get more decisive as everything gets more uncertain"}},
+      {text:"Spiral into feeling like the whole thing was a bad idea",arcs:{9:3},
+        ctxText:{
+          work:"Lose faith in the entire direction and struggle to find a reason to continue",
+          close:"Question whether this relationship was ever built on solid ground",
+          parent:"Feel like you've been doing it wrong since the beginning",
+          stress:"Let the spiral widen until small problems feel like total collapse"}}
+    ]}
+];
+
+const phase2Questions = [
+  { text:"Your relationship with rules and structure {CTX_PHRASE} is closest to:",
+    anchorOpts:[
+      {text:"I enforce them — because chaos is worse",arcs:{1:3}},
+      {text:"I use them strategically — knowing them helps me work around them",arcs:{3:3}},
+      {text:"I analyze them extensively before deciding what to do with them",arcs:{5:3}},
+      {text:"I bend them when no one's looking, then present the result confidently",arcs:{7:3}},
+      {text:"I ignore them until they become unavoidable — then panic",arcs:{9:3}}
+    ],
+    driftOpts:[
+      {text:"I follow them until I feel they aren't reciprocated, then I withdraw",arcs:{2:3}},
+      {text:"I resent them but comply, because noncompliance feels risky",arcs:{4:3}},
+      {text:"I cling to them — predictability feels like safety",arcs:{6:3}},
+      {text:"I rewrite them — mine are clearly better",arcs:{8:3}}
+    ]},
+  { text:"What feels most threatening to your sense of self {CTX_PHRASE}?",
+    anchorOpts:[
+      {text:"Being seen as sloppy, undisciplined, or lacking standards",arcs:{1:3}},
+      {text:"Losing status, visibility, or access to what you need",arcs:{3:3}},
+      {text:"Being required to act on emotion without sufficient analysis",arcs:{5:3}},
+      {text:"Becoming invisible, forgettable, or replaceable",arcs:{7:3}},
+      {text:"Committing to something and having it fall apart mid-creation",arcs:{9:3}}
+    ],
+    driftOpts:[
+      {text:"Being taken for granted after significant sacrifice",arcs:{2:3}},
+      {text:"Being exposed as less capable or evolved than people assume",arcs:{4:3}},
+      {text:"Sudden change or unpredictability you didn't see coming",arcs:{6:3}},
+      {text:"Being told your way is wrong or your vision is flawed",arcs:{8:3}}
+    ]},
+  { text:"In a group or shared situation {CTX_PHRASE}, you most often find yourself:",
+    anchorOpts:[
+      {text:"Holding the standard while everyone else lets it slip",arcs:{1:3}},
+      {text:"Managing perceptions — of yourself and the group",arcs:{3:3}},
+      {text:"Processing the dynamics rather than fully participating in them",arcs:{5:3}},
+      {text:"Reading the room and adjusting your presentation accordingly",arcs:{7:3}},
+      {text:"Starting strong then losing momentum as the scope feels too large",arcs:{9:3}}
+    ],
+    driftOpts:[
+      {text:"Doing more than your share and tracking that others aren't",arcs:{2:3}},
+      {text:"Deferring to what others want, then resenting the outcome",arcs:{4:3}},
+      {text:"Bracing for the moment it all goes sideways",arcs:{6:3}},
+      {text:"Taking charge when no one else does it right",arcs:{8:3}}
+    ]},
+  { text:"When you set a goal {CTX_PHRASE} and don't reach it, your inner response is:",
+    anchorOpts:[
+      {text:"Detailed disappointment in where the process or people fell short",arcs:{1:3}},
+      {text:"Recalibrating immediately to protect what you still have",arcs:{3:3}},
+      {text:"Extensive post-mortem analysis to understand exactly why",arcs:{5:3}},
+      {text:"Reframing the story so the goal wasn't actually that important",arcs:{7:3}},
+      {text:"A deep, heavy sense of 'I knew this would happen'",arcs:{9:3}}
+    ],
+    driftOpts:[
+      {text:"A sense of betrayal — you gave so much and still didn't get there",arcs:{2:3}},
+      {text:"Quiet confirmation that you probably weren't ready anyway",arcs:{4:3}},
+      {text:"Relief that you didn't commit more fully to something that failed",arcs:{6:3}},
+      {text:"Irritation that external factors interfered with a solid plan",arcs:{8:3}}
+    ]},
+  { text:"Your relationship with your own ideas or creative energy {CTX_PHRASE} is:",
+    anchorOpts:[
+      {text:"I hold ideas to a high bar before sharing them — most don't make it out",arcs:{1:3}},
+      {text:"I protect my best ideas until the right moment to deploy them",arcs:{3:3}},
+      {text:"I research and refine extensively before I feel ready to act",arcs:{5:3}},
+      {text:"I'm drawn to ideas that will get a response — visibility is part of the point",arcs:{7:3}},
+      {text:"I have floods of ideas and finish very few of them",arcs:{9:3}}
+    ],
+    driftOpts:[
+      {text:"I share freely but track whether my contribution is acknowledged",arcs:{2:3}},
+      {text:"I second-guess my ideas until half of them never make it out",arcs:{4:3}},
+      {text:"I don't commit fully to ideas in case they don't work",arcs:{6:3}},
+      {text:"I have a clear vision of how it should go and struggle when others deviate",arcs:{8:3}}
+    ]},
+  { text:"Conflict with someone {CTX_PHRASE} usually ends with:",
+    anchorOpts:[
+      {text:"You winning the argument but the relationship feeling colder",arcs:{1:3}},
+      {text:"You managing the optics of the disagreement as much as the disagreement",arcs:{3:3}},
+      {text:"You intellectualizing until the emotional charge dissipates",arcs:{5:3}},
+      {text:"You smoothing it over quickly because sustained tension is destabilizing",arcs:{7:3}},
+      {text:"You shutting down completely and losing access to what you felt",arcs:{9:3}}
+    ],
+    driftOpts:[
+      {text:"You doing more to prove the relationship is worth keeping",arcs:{2:3}},
+      {text:"You apologizing even when you're not sure you were wrong",arcs:{4:3}},
+      {text:"You withdrawing to somewhere that feels safer",arcs:{6:3}},
+      {text:"You being certain you were right but frustrated no one can see it",arcs:{8:3}}
+    ]},
+  { text:"Your deepest fear {CTX_PHRASE}, if you're completely honest:",
+    anchorOpts:[
+      {text:"That if you lower your standards, everything you've built loses meaning",arcs:{1:3}},
+      {text:"That you'll be outmaneuvered and left with nothing",arcs:{3:3}},
+      {text:"That knowing isn't enough and you'll be exposed when you have to act",arcs:{5:3}},
+      {text:"That your true self — unperformed — won't be enough to keep anyone",arcs:{7:3}},
+      {text:"That you'll keep starting and never become anything",arcs:{9:3}}
+    ],
+    driftOpts:[
+      {text:"That your sacrifice will be used and then discarded",arcs:{2:3}},
+      {text:"That you're fundamentally not as capable as people assume",arcs:{4:3}},
+      {text:"That the thing you love most will be taken once you fully commit to it",arcs:{6:3}},
+      {text:"That you'll give your life to a vision that no one else can see",arcs:{8:3}}
+    ]},
+  { text:"If your inner villain could speak plainly about how it shows up {CTX_PHRASE}:",
+    anchorOpts:[
+      {text:"'This isn't good enough. Not yet. Maybe not ever.'",arcs:{1:3}},
+      {text:"'They're gaining on you. Look at what they have.'",arcs:{3:3}},
+      {text:"'You're not ready. You don't know enough yet.'",arcs:{5:3}},
+      {text:"'If they stop paying attention, who are you even?'",arcs:{7:3}},
+      {text:"'You're going to start this and leave it half-finished like everything else.'",arcs:{9:3}}
+    ],
+    driftOpts:[
+      {text:"'After everything you've done, where's your reward?'",arcs:{2:3}},
+      {text:"'You're not who they think you are. They'll find out.'",arcs:{4:3}},
+      {text:"'Don't. The last time you tried this, look what happened.'",arcs:{6:3}},
+      {text:"'No one else sees what needs to be done. You'll have to do it yourself.'",arcs:{8:3}}
+    ]}
+];
+
+// ─── TOTALS ───────────────────────────────────────────────────────────────────
+// The quiz is always 14 questions: 6 opening questions weighed across all nine
+// archetypes, then 8 questions narrowed to whichever branch of 4-5 archetypes
+// the opening questions pointed toward. This is fixed regardless of answers,
+// so the progress display can show the true total from question 1 instead of
+// only revealing it once the second phase begins.
+const TOTAL_QUESTIONS = phase1Questions.length + phase2Questions.length;
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let ctx = null;
+let scores = {};
+let answers = [];
+let allQuestions = [];
+let questionOpts = [];
+let currentQ = 0;
+let phaseTransitioned = false;
+let activeArcs = [1,2,3,4,5,6,7,8,9];
+let anchorScore = 0, driftScore = 0;
+let winnerArch = null;
+
+// ─── PERSISTENCE ─────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'ivw_completed_contexts';
+function loadCompleted() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+function saveCompleted(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+function clearCompleted() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  try { localStorage.removeItem(CLAIMED_KEY); } catch(e) {}
+  completedContexts = {};
+  init();
+}
+let completedContexts = loadCompleted();
+
+// Which archetype links this browser has already clicked into. This is not a
+// gate, nothing here prevents a click or blocks a second archetype. It only
+// keeps the page honest with a returning visitor on the same browser, so it
+// doesn't keep presenting an already-opened guide as a fresh free one.
+const CLAIMED_KEY = 'ivw_claimed_archetypes';
+function loadClaimed() {
+  try { return JSON.parse(localStorage.getItem(CLAIMED_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function markClaimed(id) {
+  const list = loadClaimed();
+  if (!list.includes(id)) {
+    list.push(id);
+    try { localStorage.setItem(CLAIMED_KEY, JSON.stringify(list)); } catch(e) {}
+  }
+}
+
+const ANCHOR_ARCS = [1,3,5,7,9];
+const DRIFT_ARCS  = [2,4,6,8];
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+function init() {
+  const container = document.getElementById('ctx-options');
+  container.innerHTML = '';
+  CONTEXTS.forEach(c => {
+    const btn = document.createElement('button');
+    const done = completedContexts[c.id];
+    btn.className = 'ctx-opt' + (ctx && ctx.id === c.id ? ' selected' : '');
+    const resultNote = done ? `<span style="font-size:11px;opacity:0.6;margin-left:auto;padding-left:8px">${done.archetype} ✓</span>` : '';
+    btn.innerHTML = `<span class="ctx-emoji">${c.emoji}</span><span style="flex:1">${c.label}</span>${resultNote}`;
+    btn.onclick = () => selectCtx(c, btn);
+    container.appendChild(btn);
+  });
+}
+
+function selectCtx(c, btn) {
+  ctx = c;
+  document.querySelectorAll('.ctx-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('btn-begin').disabled = false;
+}
+
+// ─── QUIZ ─────────────────────────────────────────────────────────────────────
+function applyCtx(text) {
+  const relCapped = ctx.relationPhrase.charAt(0).toUpperCase() + ctx.relationPhrase.slice(1);
+  return text
+    .replace(/\{CTX_PHRASE\}/g, ctx.qPhrase)
+    .replace(/\{REL_PHRASE\}/g, relCapped)
+    .replace(/\{LOW_PHRASE\}/g, ctx.lowPhrase);
+}
+
+function resolveOptText(opt) {
+  if (opt.ctxText && opt.ctxText[ctx.id]) return opt.ctxText[ctx.id];
+  return opt.text;
+}
+
+// Fisher-Yates: randomize answer order so no arc sits in a fixed position.
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function startQuiz() {
+  if (!ctx) return;
+  for (let i = 1; i <= 9; i++) scores[i] = 0;
+  answers = [];
+  currentQ = 0;
+  phaseTransitioned = false;
+  activeArcs = [1,2,3,4,5,6,7,8,9];
+  anchorScore = 0; driftScore = 0;
+  allQuestions = [...phase1Questions];
+  questionOpts = [];
+  document.getElementById('ctx-badge-text').textContent = ctx.badge;
+  show('screen-quiz');
+  renderQ();
+}
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function renderQ() {
+  const q = allQuestions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL_QUESTIONS}`;
+  document.getElementById('phase-label').textContent = phaseTransitioned ? 'Focused' : 'Opening';
+  document.getElementById('prog').style.width = ((currentQ + 1) / TOTAL_QUESTIONS * 100) + '%';
+
+  const badge = document.getElementById('phase-badge');
+  const btext = document.getElementById('phase-text');
+  if (!phaseTransitioned) {
+    badge.className = 'phase-badge neutral';
+    btext.textContent = 'Finding your pattern';
+  } else if (anchorScore >= driftScore) {
+    badge.className = 'phase-badge anchor';
+    btext.textContent = 'Your pattern is taking shape';
+  } else {
+    badge.className = 'phase-badge drift';
+    btext.textContent = 'Your pattern is taking shape';
+  }
+
+  const sigBar = document.getElementById('signal-bar');
+  if (phaseTransitioned) {
+    sigBar.style.display = 'flex';
+    const total = anchorScore + driftScore || 1;
+    const ap = Math.round(anchorScore / total * 100);
+    const dp = 100 - ap;
+    document.getElementById('sig-anchor').style.width = ap + '%';
+    document.getElementById('sig-drift').style.width = dp + '%';
+    document.getElementById('sig-label').textContent = 'Focusing your result';
+  } else {
+    sigBar.style.display = 'none';
+  }
+
+  document.getElementById('q-text').textContent = applyCtx(q.text);
+  document.getElementById('sel-count').textContent = '0 of 3 selected';
+
+  let opts = questionOpts[currentQ];
+  if (!opts) {
+    const base = q.anchorOpts ? getAdaptedOpts(q) : q.opts;
+    opts = shuffle(base.slice());
+    questionOpts[currentQ] = opts;
+  }
+  const container = document.getElementById('options');
+  container.innerHTML = '';
+  const saved = answers[currentQ] || [];
+
+  opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    const selIdx = saved.findIndex(a => a.idx === i);
+    if (selIdx === 0) btn.classList.add('sel-1');
+    if (selIdx === 1) btn.classList.add('sel-2');
+    if (selIdx === 2) btn.classList.add('sel-3');
+    btn.innerHTML = `<span class="sel-badge">${selIdx >= 0 ? selIdx + 1 : '○'}</span><span>${resolveOptText(opt)}</span>`;
+    btn.onclick = () => toggleOpt(i, opts);
+    container.appendChild(btn);
+  });
+
+  const savedLen = (answers[currentQ] || []).length;
+  if (savedLen > 0) document.getElementById('sel-count').textContent = `${savedLen} of 3 selected`;
+
+  document.getElementById('btn-back').disabled = currentQ === 0;
+  document.getElementById('btn-next').disabled = !answers[currentQ] || answers[currentQ].length === 0;
+  document.getElementById('btn-next').textContent = currentQ === allQuestions.length - 1 ? 'Refine my result' : 'Next';
+}
+
+function getAdaptedOpts(q) {
+  const all = [...q.anchorOpts, ...q.driftOpts];
+  return all.filter(o => Object.keys(o.arcs).map(Number).some(a => activeArcs.includes(a)));
+}
+
+function toggleOpt(idx, opts) {
+  if (!answers[currentQ]) answers[currentQ] = [];
+  const arr = answers[currentQ];
+  const existing = arr.findIndex(a => a.idx === idx);
+  if (existing >= 0) {
+    arr.splice(existing, 1);
+  } else {
+    if (arr.length >= 3) return;
+    arr.push({ idx, opt: opts[idx] });
+  }
+  answers[currentQ] = arr;
+  document.getElementById('sel-count').textContent = `${arr.length} of 3 selected`;
+  document.querySelectorAll('#options .opt').forEach((btn, i) => {
+    btn.className = 'opt';
+    const si = arr.findIndex(a => a.idx === i);
+    if (si === 0) btn.classList.add('sel-1');
+    if (si === 1) btn.classList.add('sel-2');
+    if (si === 2) btn.classList.add('sel-3');
+    btn.querySelector('.sel-badge').textContent = si >= 0 ? si + 1 : '○';
+  });
+  document.getElementById('btn-next').disabled = arr.length === 0;
+}
+
+function applyAnswerToScores(qAnswers) {
+  const weights = [3, 2, 1];
+  qAnswers.forEach((a, rank) => {
+    const w = weights[rank] || 1;
+    Object.entries(a.opt.arcs).forEach(([arc, pts]) => {
+      scores[parseInt(arc)] = (scores[parseInt(arc)] || 0) + pts * w;
+    });
+  });
+}
+
+function determinePhase() {
+  anchorScore = 0; driftScore = 0;
+  ANCHOR_ARCS.forEach(a => { anchorScore += scores[a] || 0; });
+  DRIFT_ARCS.forEach(a => { driftScore += scores[a] || 0; });
+  activeArcs = anchorScore >= driftScore ? [...ANCHOR_ARCS] : [...DRIFT_ARCS];
+}
+
+function goNext() {
+  const arr = answers[currentQ] || [];
+  if (arr.length === 0) return;
+  applyAnswerToScores(arr);
+
+  if (currentQ === phase1Questions.length - 1 && !phaseTransitioned) {
+    determinePhase();
+    phaseTransitioned = true;
+    allQuestions = [...phase1Questions, ...phase2Questions];
+  }
+
+  if (currentQ === allQuestions.length - 1) {
+    calculateResult();
+    return;
+  }
+  currentQ++;
+  if (!answers[currentQ]) answers[currentQ] = [];
+  renderQ();
+}
+
+function goBack() {
+  if (currentQ > 0) {
+    const arr = answers[currentQ - 1] || [];
+    const weights = [3, 2, 1];
+    arr.forEach((a, rank) => {
+      const w = weights[rank] || 1;
+      Object.entries(a.opt.arcs).forEach(([arc, pts]) => {
+        scores[parseInt(arc)] = Math.max(0, (scores[parseInt(arc)] || 0) - pts * w);
+      });
+    });
+    currentQ--;
+    renderQ();
+  }
+}
+
+function calculateResult() {
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const winnerId = parseInt(sorted[0][0]);
+  winnerArch = archetypes.find(a => a.id === winnerId);
+  showResult();
+}
+
+// ─── RESULT ───────────────────────────────────────────────────────────────────
+function showResult() {
+  completedContexts[ctx.id] = { archetype: winnerArch.name };
+  saveCompleted(completedContexts);
+  const arch = winnerArch;
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
+
+  document.getElementById('r-ctx-text').textContent = ctx.badge;
+  document.getElementById('r-eyebrow').textContent = arch.arc;
+  document.getElementById('r-name').textContent = arch.name;
+  document.getElementById('r-arc').textContent = arch.theme;
+
+  document.getElementById('r-strategy').textContent = arch.strategy;
+  document.getElementById('r-belief').textContent = arch.belief;
+  document.getElementById('r-dialogue').textContent = arch.dialogue;
+  document.getElementById('r-truth').textContent = arch.truth;
+
+  // Breakdown bars — single brand treatment, winning arc highlighted in gild
+  const breakdown = document.getElementById('r-breakdown');
+  breakdown.innerHTML = '';
+  sorted.slice(0, 5).forEach(([id, sc]) => {
+    const a = archetypes.find(x => x.id === parseInt(id));
+    if (!a) return;
+    const pct = Math.round(sc / total * 100);
+    const fillClass = parseInt(id) === arch.id ? 'arc-fill win' : 'arc-fill';
+    const row = document.createElement('div');
+    row.className = 'arc-row';
+    row.innerHTML = `<div class="arc-name">${a.name}</div><div class="arc-track"><div class="${fillClass}" style="width:${pct}%"></div></div><div class="arc-pct">${pct}%</div>`;
+    breakdown.appendChild(row);
+  });
+
+  // Choose your field guide — all nine, computed winner highlighted.
+  // Each link carries the quiz's own computed result as URL params (quiz_result,
+  // quiz_context, quiz_breakdown), separate from whichever guide the person
+  // actually picks. Confirm with Kit that the destination forms are set up to
+  // read and prefill custom fields from these params — if not, they're simply
+  // ignored and the link still works as a plain opt-in.
+  document.getElementById('choose-title').textContent = 'Choose your field guide';
+  document.getElementById('choose-body').innerHTML = `Your quiz pointed to ${arch.name}, marked below. Every pattern has its own pdf guide. Choose wisely and what you are drawn to. <strong>The first one is free, and each additional guide is available at a discount through the Legend Academy.</strong>`;
+
+  const resultBreakdown = sorted.slice(0, 3).map(([id, sc]) => {
+    const a = archetypes.find(x => x.id === parseInt(id));
+    return `${a.name}:${Math.round(sc / total * 100)}%`;
+  }).join(', ');
+
+  const grid = document.getElementById('universe-grid');
+  grid.innerHTML = '';
+  const claimed = loadClaimed();
+  archetypes.forEach(a => {
+    const link = document.createElement('a');
+    const isClaimed = claimed.includes(a.id);
+    link.className = 'universe-btn' + (a.id === arch.id ? ' winner' : '') + (isClaimed ? ' claimed' : '');
+    const dest = UNIVERSE_URLS[a.id] || '#';
+    if (dest !== '#') {
+      const params = new URLSearchParams({ quiz_result: arch.name, quiz_context: ctx.id, quiz_breakdown: resultBreakdown });
+      link.href = dest + (dest.includes('?') ? '&' : '?') + params.toString();
+    } else {
+      link.href = '#';
+    }
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.innerHTML = (a.id === arch.id ? '<span class="universe-tag">Your result</span>' : '') +
+      `<span class="universe-arc">${a.arc}</span><span class="universe-name">${a.name}</span>` +
+      (isClaimed ? '<span class="universe-status">already opened on this browser</span>' : '');
+    link.addEventListener('click', () => markClaimed(a.id));
+    grid.appendChild(link);
+  });
+
+  // Paired Legend cross-link (shown only when a Legend quiz URL is set)
+  const legendDiv = document.getElementById('legend-link');
+  const legendName = LEGENDS[arch.id];
+  if (LEGEND_QUIZ_URL && legendName) {
+    legendDiv.style.display = 'block';
+    legendDiv.innerHTML = `<div class="legend-label">The other half of this arc</div><div class="legend-body">Every villain has a Legend. ${legendName} is the forward-facing skill that grows from this same arc, approached from the opposite direction.</div><a class="legend-cta" href="${LEGEND_QUIZ_URL}">Meet ${legendName} in the Legend quiz</a>`;
+  } else {
+    legendDiv.style.display = 'none';
+  }
+
+  // Retake pills — show unused contexts
+  const pillsDiv = document.getElementById('retake-pills');
+  pillsDiv.innerHTML = '';
+  CONTEXTS.filter(c => c.id !== ctx.id).forEach(c => {
+    const pill = document.createElement('button');
+    const done = completedContexts[c.id];
+    pill.className = 'retake-pill' + (done ? ' done' : '');
+    pill.innerHTML = `${c.emoji} ${done ? `${c.label} · ${done.archetype}` : c.label}`;
+    if (!done) { pill.onclick = () => retakeAs(c); }
+    pillsDiv.appendChild(pill);
+  });
+
+  show('screen-result');
+}
+
+function retakeAs(newCtx) {
+  ctx = newCtx;
+  for (let i = 1; i <= 9; i++) scores[i] = 0;
+  answers = [];
+  currentQ = 0;
+  phaseTransitioned = false;
+  activeArcs = [1,2,3,4,5,6,7,8,9];
+  anchorScore = 0; driftScore = 0;
+  allQuestions = [...phase1Questions];
+  questionOpts = [];
+  winnerArch = null;
+  document.getElementById('ctx-badge-text').textContent = ctx.badge;
+  show('screen-quiz');
+  renderQ();
+}
+
+// ─── BOOT ─────────────────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
